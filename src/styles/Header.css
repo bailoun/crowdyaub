@@ -1,0 +1,40 @@
+/* Header styles */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none; /* Remove underline */
+    color: #fff; /* Set the color */
+}
+
+.header .logo:hover {
+    color: #ddd; /* Optional: Add hover effect */
+}
+
+.header .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem; /* Increase the space between navbar items */
+}
+
+.header .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out; /* Add transition effect */
+}
+
+.header .nav-links li a:hover {
+    color: #ddd;
+    text-decoration: underline; /* Add underline on hover */
+}

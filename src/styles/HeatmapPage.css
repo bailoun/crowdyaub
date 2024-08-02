@@ -1,0 +1,14 @@
+/* HeatmapPage styles */
+.heatmap {
+    padding: 2rem 0;
+}
+
+.heatmap .container {
+    text-align: center;
+}
+
+.heatmap-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
