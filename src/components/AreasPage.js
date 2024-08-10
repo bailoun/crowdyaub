@@ -17,9 +17,12 @@ const AreasPage = () => (
             <h3><Link to="/libraries">Libraries</Link></h3>
           </div>
           <div className="area-card">
+            <Link to="/study-areas">
             <img src="/study-areas.png" alt="Study Areas" />
-            <h3>Study Areas</h3>
-          </div>
+           </Link>
+            <h3><Link to="/study-areas">Study Areas</Link></h3>
+            </div>
+
           <div className="area-card">
             <img src="/cafeterias.png" alt="Cafeterias" />
             <h3>Cafeterias</h3>

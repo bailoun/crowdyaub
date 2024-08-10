@@ -1,0 +1,44 @@
+/* BDHFloorsPage styles */
+.bdh-floors {
+    padding: 2rem 0;
+  }
+  
+  .bdh-floors .container {
+    text-align: center;
+  }
+  
+  .floors-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-items: center;
+    align-items: stretch; /* Ensure each item takes full width */
+  }
+  
+  .floor-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%; /* Make the card take the full width of its parent */
+    text-align: center; /* Center the text */
+  }
+  
+  .floor-card a {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit the color from the parent element */
+  }
+  
+  .floor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .floor-card h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
