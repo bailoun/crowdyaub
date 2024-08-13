@@ -10,16 +10,16 @@ import SaabMedicalLibraryPage from './components/SaabMedicalLibraryPage';
 import ScienceEngineeringLibraryPage from './components/ScienceEngineeringLibraryPage';
 import HeatmapPage from './components/HeatmapPage';
 import PageTransition from './components/PageTransition';
-import './App.css';
-import StudyAreasPage from './components/StudyAreasPage';  // Import the new component
-import BDHFloorsPage from './components/BDHFloorsPage';  // Import the new component
-
-import BDHFloor1Page from './components/BDHFloor1Page';
+import StudyAreasPage from './components/StudyAreasPage';  
+import BDHFloorsPage from './components/BDHFloorsPage';  
 import BDHFloor2Page from './components/BDHFloor2Page';
 import BDHFloor3Page from './components/BDHFloor3Page';
 import BDHFloor4Page from './components/BDHFloor4Page';
 import BDHFloor5Page from './components/BDHFloor5Page';
 import BDHFloor6Page from './components/BDHFloor6Page';
+import BDHFloorHeatmap from './components/BDHFloorHeatmap';  // Updated to use BDHFloorHeatmap
+
+import './App.css';
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
           <Route path="/science-engineering" element={<ScienceEngineeringLibraryPage />} />
           <Route path="/study-areas" element={<StudyAreasPage />} />
           <Route path="/bdh" element={<BDHFloorsPage />} />
-          <Route path="/bdh/floor-1" element={<BDHFloor1Page />} />
+          <Route path="/bdh/floor-1" element={<BDHFloorHeatmap />} /> {/* Using BDHFloorHeatmap */}
           <Route path="/bdh/floor-2" element={<BDHFloor2Page />} />
           <Route path="/bdh/floor-3" element={<BDHFloor3Page />} />
           <Route path="/bdh/floor-4" element={<BDHFloor4Page />} />
