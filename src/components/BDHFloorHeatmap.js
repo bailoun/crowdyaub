@@ -5,17 +5,21 @@ const BDHFloorHeatmap = () => {
   const [roomData, setRoomData] = useState({});
 
   useEffect(() => {
-    fetch('/api/Device')
-  .then(response => response.json())
-  .then(data => {
-    console.log("API Data: ", data);  
-    const mappedData = mapDeviceToRooms(data.items);
-    setRoomData(mappedData);
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
+    // Determine the API URL based on the environment
+    const apiUrl = process.env.NODE_ENV === 'production'
+      ? 'https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device'
+      : '/api/Device';  // This uses the proxy in development
 
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        console.log("API Data: ", data);  // Log API response
+        const mappedData = mapDeviceToRooms(data.items);
+        setRoomData(mappedData);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
   }, []);
 
   const mapDeviceToRooms = (data) => {
