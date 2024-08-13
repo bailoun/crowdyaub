@@ -5,13 +5,16 @@ const BDHFloorHeatmap = () => {
   const [roomData, setRoomData] = useState({});
 
   useEffect(() => {
-    // Determine the API URL based on the environment
-    const apiUrl = process.env.NODE_ENV === 'production'
-      ? 'https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device'
-      : '/api/Device';  // This uses the proxy in development
+    // Use the full API URL for production
+    const apiUrl = 'https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device';
 
     fetch(apiUrl)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => {
         console.log("API Data: ", data);  // Log API response
         const mappedData = mapDeviceToRooms(data.items);
