@@ -9,6 +9,9 @@
 
 .heatmap-image {
     width: 100%;
+    max-width: 1200px; /* Add a max-width to prevent the image from becoming too large on wide screens */
     height: auto;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for better visibility */
+    margin: 0 auto; /* Center the image horizontally */
 }

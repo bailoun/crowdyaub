@@ -8,10 +8,10 @@ const BDHFloorsPage = () => (
       <div className="container">
         <h2>BDH Floors</h2>
         <div className="floors-grid">
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="floor-card">
-              <Link to={`/bdh/floor-${index + 1}`}>
-                <h3>Floor {index + 1}</h3>
+          {[1, 2, 4, 5].map((floor) => (
+            <div key={floor} className="floor-card">
+              <Link to={`/bdh/floor-${floor}`}>
+                <h3>Floor {floor}</h3>
               </Link>
             </div>
           ))}

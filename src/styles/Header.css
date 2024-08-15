@@ -3,12 +3,14 @@
     background-color: #333;
     color: #fff;
     padding: 1rem 0;
+    position: relative; /* Needed for hamburger menu positioning */
 }
 
 .header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* Allow positioning of the hamburger menu */
 }
 
 .header .logo {
@@ -37,4 +39,66 @@
 .header .nav-links li a:hover {
     color: #ddd;
     text-decoration: underline; /* Add underline on hover */
+}
+
+/* Hide the nav-links on mobile devices */
+.hamburger {
+    display: none; /* Hide by default */
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    left: 20px; /* Position it to the left */
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    transition: 0.3s;
+}
+
+/* MEDIA QUERIES FOR RESPONSIVENESS */
+
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+    .header .container {
+        justify-content: center; /* Center the container contents */
+    }
+
+    .header .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%); /* Center the logo */
+    }
+
+    .header .nav-links {
+        display: none; /* Hide the nav-links */
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0; /* Align the menu to the left */
+        background-color: #333;
+        width: 100%;
+        padding: 1rem 0;
+        z-index: 1000; /* Ensure the menu is above other content */
+    }
+
+    .header .nav-links.show {
+        display: flex; /* Show the nav-links when hamburger is clicked */
+    }
+
+    .header .nav-links li {
+        text-align: center;
+        padding: 1rem 0;
+    }
+
+    .header .nav-links li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .hamburger {
+        display: flex; /* Show hamburger menu */
+    }
 }

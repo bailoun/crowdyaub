@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/JafetLibraryPage.css';
+import '../styles/LibraryDetails.css';
 
 const JafetLibraryPage = () => (
   <main>

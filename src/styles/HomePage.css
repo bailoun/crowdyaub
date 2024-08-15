@@ -55,11 +55,13 @@
     color: #000; /* Ensure text is black */
 }
 
+/* Updated idea-content for responsive design */
 .idea-content {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    flex-direction: row; /* Default layout: image on the left, text on the right */
 }
 
 .idea-image {
@@ -81,8 +83,26 @@
     margin-bottom: 1rem;
 }
 
+/* Media query for narrower screens */
+@media (max-width: 768px) {
+    .idea-content {
+        flex-direction: column; /* Stack image and text vertically */
+        text-align: center; /* Center text for smaller screens */
+    }
+
+    .idea-image,
+    .idea-text {
+        max-width: 100%; /* Full width for both image and text */
+    }
+
+    .idea-image {
+        margin-bottom: 1rem; /* Add space below the image */
+    }
+}
+
 .about {
     padding: 2rem 0;
+    text-align: center; /* Center the content */
 }
 
 .about-content {
@@ -97,6 +117,7 @@
     align-items: center;
     gap: 1rem;
     width: calc(50% - 2rem);
+    justify-content: center; /* Center the items within their container */
 }
 
 .about-icon {
@@ -118,22 +139,37 @@
     padding: 2rem 0;
     background-color: #fff; /* Ensure background is white */
     color: #000; /* Ensure text is black */
+    display: flex;
+    justify-content: center; /* Center the contact form container */
 }
 
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
+    text-align: center; /* Ensure everything inside is centered */
+}
+
+/* Center the form and its elements */
+form {
+    width: 60%; /* Keep the form width */
+    text-align: left; /* Align the form fields and labels to the left */
+    margin: 0 auto; /* Center the form within the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the form elements */
 }
 
 form label {
-    display: block;
+    width: 100%; /* Ensure labels take full width of the form */
+    text-align: left; /* Align labels to the left */
     margin-top: 1rem;
 }
 
 form input,
 form textarea {
-    width: 100%;
+    width: 100%; /* Maintain the width of the form fields */
+    max-width: 100%; /* Ensure they do not exceed the form width */
     padding: 0.5rem;
     margin-top: 0.5rem;
     background-color: #f9f9f9;
@@ -142,17 +178,24 @@ form textarea {
     border-radius: 5px;
 }
 
+/* Increase the default height of the message textarea */
+form textarea {
+    height: 150px; /* Adjust the height as needed */
+}
+
 form button {
     margin-top: 1rem;
     padding: 0.5rem 1rem;
-    background-color: #d3d3d3; /* Light gray background */
-    color: #000;
+    background-color: #000; /* Set background color to black */
+    color: #fff; /* Change text color to white */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: block;
+    width: auto;
 }
 
 form button:hover {
-    background-color: #a9a9a9;
+    background-color: #333; /* Slightly lighter black on hover */
 }

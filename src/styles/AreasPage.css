@@ -9,7 +9,7 @@
 
 .areas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusts automatically to screen size */
     gap: 2rem;
     justify-items: center;
     align-items: start;
@@ -22,6 +22,7 @@
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    max-width: 100%; /* Ensure cards don’t overflow on small screens */
 }
 
 .area-card:hover {
@@ -33,15 +34,40 @@
     width: 100%;
     border-radius: 8px;
     margin-bottom: 1rem;
+    height: auto; /* Maintain aspect ratio */
+    max-height: 200px; /* Ensure images don't get too large */
+    object-fit: cover; /* Maintain image proportions */
 }
 
 .area-card h3 {
     margin: 0;
     font-size: 1.25rem;
     color: #333;
+    text-align: center; /* Center align text for consistency */
 }
 
 .area-card a {
     text-decoration: none;
     color: inherit;
+}
+
+/* MEDIA QUERIES FOR RESPONSIVENESS */
+
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+    .areas-grid {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+
+    .area-card {
+        padding: 0.5rem; /* Reduce padding on small screens */
+    }
+
+    .area-card h3 {
+        font-size: 1rem; /* Slightly smaller text on mobile */
+    }
+
+    .area-card img {
+        max-height: 150px; /* Reduce image height on small screens */
+    }
 }

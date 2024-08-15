@@ -1,6 +1,6 @@
-/* LibrariesPage styles */
 .libraries {
     padding: 2rem 0;
+    background-color: #f8f8f8; /* Light background for better readability */
 }
 
 .libraries .container {
@@ -9,7 +9,7 @@
 
 .libraries-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Flexible grid */
     gap: 2rem;
     justify-items: center;
     align-items: start;
@@ -22,6 +22,9 @@
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    max-width: 400px; /* Maximum width to maintain design consistency */
+    text-align: center;
 }
 
 .library-card:hover {
@@ -33,6 +36,7 @@
     width: 100%;
     border-radius: 8px;
     margin-bottom: 1rem;
+    object-fit: cover; /* Ensure image covers the area without distortion */
 }
 
 .library-card h3 {

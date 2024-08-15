@@ -1,15 +1,35 @@
-/* BDHFloorPage styles */
-.floor-details {
-  padding: 2rem 0;
+.floor-plan-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px; /* Ensure it doesn’t stretch too wide on large screens */
+  margin: 0 auto;
 }
 
-.floor-details .container {
-  text-align: center;
-}
-
-.floor-image {
+.floor-plan-image {
   width: 100%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.highlight {
+  position: absolute;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+/* Tooltip styles */
+.highlight[data-tooltip]:hover:after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
 }

@@ -1,6 +1,6 @@
-/* BDHFloorsPage styles */
 .bdh-floors {
   padding: 2rem 0;
+  background-color: #fff; /* Set a clean white background */
 }
 
 .bdh-floors .container {

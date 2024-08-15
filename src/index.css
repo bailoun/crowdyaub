@@ -1,13 +1,32 @@
-body {
+/* Ensure the entire page takes full height */
+html, body {
+  height: 100%;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Main content should fill the remaining space */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer should be at the bottom */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 0;
+  text-align: center;
+  width: 100%; /* Ensure footer spans the full width */
+  margin-top: auto; /* Pushes footer to the bottom */
 }

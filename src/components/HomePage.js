@@ -35,7 +35,7 @@ const HomePage = () => {
       <section className="idea fade-in">
         <div className="container">
           <div className="idea-content">
-            <img src="/campus.jpg" alt="Campus Image" className="idea-image" />
+            <img src="/campus.jpg" alt="Campus" className="idea-image" />
             <div className="idea-text">
               <h2>The Idea</h2>
               <p>Our project is a unique initiative led by students, for students, aimed at predicting crowd density across our university campus. By leveraging cutting-edge technology and innovative data analysis techniques, we strive to enhance the campus experience by providing real-time insights into crowd levels.</p>
@@ -72,7 +72,7 @@ const HomePage = () => {
             <div className="about-item">
               <div className="about-icon"><i className="fas fa-info-circle"></i></div>
               <div className="about-text">
-                <h3>Sara El Houeidi</h3>
+                <h3>Sara Houeidi</h3>
                 <p>Major in Biomedical Engineering</p>
               </div>
             </div>
@@ -85,8 +85,6 @@ const HomePage = () => {
           <form>
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name" />
-            <label htmlFor="surname">Surname</label>
-            <input type="text" id="surname" name="surname" />
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" />
             <label htmlFor="message">Message</label>
