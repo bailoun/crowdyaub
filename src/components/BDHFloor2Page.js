@@ -1,37 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/BDHFloorHeatmap.css';
 
 const BDHFloor2Page = () => {
   const [roomData, setRoomData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/Device')
-      .then(response => response.json())
-      .then(data => {
-        console.log("API Data: ", data);  // Log API response
+    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API Data: ", data);
         const mappedData = mapDeviceToRooms(data.items);
         setRoomData(mappedData);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
 
   const mapDeviceToRooms = (data) => {
     const deviceToRoomMapping = {
-      'EWA.2A.001': '212',
-      'EWA.2A.002': '211',
-      'EWA.2A.003': '209',
-      'EWA.2A.004': '208',
-      'EWA.2A.005': '205',
-      'EWA.2A.006': '204',
-      'EWA.2A.007': '203',
-      'EWA.2A.008': '202',
-      'EWA.2A.009': '201',
+      'EWA.L2A.00': '211',
+      'EWA.2A2.002': '210',
+      'EWA.2A2.003': '209',
+      'EWA.2A2.004': '207',
+      'EWA.L2A.004': 'Lab1',
+      'EWA.L2A.003': 'Lab2',
     };
 
     let roomData = {};
-    data.forEach(deviceEntry => {
+    data.forEach((deviceEntry) => {
       const room = deviceToRoomMapping[deviceEntry.Device];
       if (room) {
         roomData[room] = parseInt(deviceEntry.UniqueClients, 10);
@@ -45,6 +49,14 @@ const BDHFloor2Page = () => {
     if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
     if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
     return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
+  };
+
+  const goToNextFloor = () => {
+    navigate('/bdh/floor-4');
+  };
+
+  const goToPreviousFloor = () => {
+    navigate('/bdh/floor-1');
   };
 
   return (
@@ -159,6 +171,14 @@ const BDHFloor2Page = () => {
         }}
         data-tooltip={`Room 201: ${roomData['201'] || 'No data'} students`}
       ></div>
+
+      <button className="next-floor-button" onClick={goToNextFloor}>
+        Next Floor &gt;
+      </button>
+
+      <button className="previous-floor-button" onClick={goToPreviousFloor}>
+        &lt; Previous Floor
+      </button>
     </div>
   );
 };

@@ -7,14 +7,14 @@ const BDHFloor1Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/testing/Device")
-      .then(response => response.json())
-      .then(data => {
-        console.log("API Data: ", data);  // Log API response
+    fetch('https://hnzibndcxkgppwrbdfy4xme5mi0onkyy.lambda-url.eu-central-1.on.aws/')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API Data: ", data);
         const mappedData = mapDeviceToRooms(data.items);
         setRoomData(mappedData);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
@@ -30,7 +30,7 @@ const BDHFloor1Page = () => {
     };
 
     let roomData = {};
-    data.forEach(deviceEntry => {
+    data.forEach((deviceEntry) => {
       const room = deviceToRoomMapping[deviceEntry.Device];
       if (room) {
         roomData[room] = parseInt(deviceEntry.UniqueClients, 10);
@@ -130,10 +130,9 @@ const BDHFloor1Page = () => {
         data-tooltip={`Lab 2: ${roomData['Lab2'] || 'No data'} students`}
       ></div>
 
-      {/* Navigation arrows */}
-      <div className="navigation-arrows">
-        <button onClick={goToNextFloor} className="next-floor">{'>'}</button>
-      </div>
+      <button className="next-floor-button" onClick={goToNextFloor}>
+        Next Floor &gt;
+      </button>
     </div>
   );
 };

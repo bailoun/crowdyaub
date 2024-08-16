@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/BDHFloorHeatmap.css';
 
 const BDHFloor4Page = () => {
   const [roomData, setRoomData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/Device')
-      .then(response => response.json())
-      .then(data => {
-        console.log("API Data: ", data);  // Log API response
+    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API Data: ", data);
         const mappedData = mapDeviceToRooms(data.items);
         setRoomData(mappedData);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
@@ -25,7 +32,7 @@ const BDHFloor4Page = () => {
     };
 
     let roomData = {};
-    data.forEach(deviceEntry => {
+    data.forEach((deviceEntry) => {
       const room = deviceToRoomMapping[deviceEntry.Device];
       if (room) {
         roomData[room] = parseInt(deviceEntry.UniqueClients, 10);
@@ -39,6 +46,14 @@ const BDHFloor4Page = () => {
     if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
     if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
     return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
+  };
+
+  const goToNextFloor = () => {
+    navigate('/bdh/floor-5');
+  };
+
+  const goToPreviousFloor = () => {
+    navigate('/bdh/floor-2');
   };
 
   return (
@@ -70,7 +85,14 @@ const BDHFloor4Page = () => {
         data-tooltip={`Conference Room 435: ${roomData['435'] || 'No data'} students`}
       ></div>
 
-      {/* Add more regions as needed */}
+      {/* Navigation buttons */}
+      <button className="next-floor-button" onClick={goToNextFloor}>
+        Next Floor &gt;
+      </button>
+
+      <button className="previous-floor-button" onClick={goToPreviousFloor}>
+        &lt; Previous Floor
+      </button>
     </div>
   );
 };

@@ -1,39 +1,74 @@
 .floor-plan-container {
   position: relative;
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+  height: auto;
 }
 
 .floor-plan-image {
   width: 100%;
   height: auto;
+  display: block;
 }
 
 .highlight {
   position: absolute;
-  z-index: 10;
-  pointer-events: auto;
+  border-radius: 5px;
+  z-index: 5;
+  transition: background-color 0.2s ease;
 }
 
-/* Tooltip styling */
-.highlight:hover::after {
-  content: attr(data-tooltip);  /* Get the content from the data-tooltip attribute */
+.highlight[data-tooltip]:hover:before {
+  content: attr(data-tooltip);
   position: absolute;
-  background-color: black;
-  color: #fff;
-  padding: 5px;
-  border-radius: 3px;
-  white-space: nowrap;
-  z-index: 100;
-  top: -25px; /* Position above the element */
+  bottom: 100%; /* Tooltip appears above the highlight */
   left: 50%;
   transform: translateX(-50%);
-  opacity: 1;
-  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 15;
 }
 
-.highlight::after {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+.next-floor-button, .previous-floor-button {
+  position: absolute;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.next-floor-button {
+  bottom: 20px;
+  right: 20px;
+}
+
+.previous-floor-button {
+  bottom: 20px;
+  left: 20px;
+}
+
+.next-floor-button:hover, .previous-floor-button:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .next-floor-button, .previous-floor-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    bottom: 10px;
+  }
+  .next-floor-button {
+    right: 10px;
+  }
+  .previous-floor-button {
+    left: 10px;
+  }
 }
