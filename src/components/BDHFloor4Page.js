@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/BDHFloorHeatmap.css';
 
-const BDHFloor4Heatmap = () => {
+const BDHFloor4Page = () => {
   const [roomData, setRoomData] = useState({});
 
   useEffect(() => {
@@ -75,4 +75,4 @@ const BDHFloor4Heatmap = () => {
   );
 };
 
-export default BDHFloor4Heatmap;
+export default BDHFloor4Page;
