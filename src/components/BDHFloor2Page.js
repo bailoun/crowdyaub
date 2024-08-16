@@ -7,12 +7,7 @@ const BDHFloor2Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch('https://yhx5alei6k.execute-api.eu-central-1.amazonaws.com/Prod/devices')
       .then((response) => response.json())
       .then((data) => {
         console.log("API Data: ", data);
