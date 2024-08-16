@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/BDHFloorHeatmap.css';
 
 const BDHFloor1Page = () => {
   const [roomData, setRoomData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device')
+    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/testing/Device")
       .then(response => response.json())
       .then(data => {
         console.log("API Data: ", data);  // Log API response
@@ -42,6 +44,10 @@ const BDHFloor1Page = () => {
     if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
     if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
     return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
+  };
+
+  const goToNextFloor = () => {
+    navigate('/bdh/floor-2');
   };
 
   return (
@@ -123,6 +129,11 @@ const BDHFloor1Page = () => {
         }}
         data-tooltip={`Lab 2: ${roomData['Lab2'] || 'No data'} students`}
       ></div>
+
+      {/* Navigation arrows */}
+      <div className="navigation-arrows">
+        <button onClick={goToNextFloor} className="next-floor">{'>'}</button>
+      </div>
     </div>
   );
 };

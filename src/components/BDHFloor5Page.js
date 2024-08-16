@@ -5,7 +5,7 @@ const BDHFloor5Page = () => {
   const [roomData, setRoomData] = useState({});
 
   useEffect(() => {
-    fetch('https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device')
+    fetch('/api/Device')
       .then(response => response.json())
       .then(data => {
         console.log("API Data: ", data);  // Log API response
