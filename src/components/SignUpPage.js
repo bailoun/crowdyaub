@@ -4,20 +4,40 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../firebase';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the eye icons
+import { FaEye, FaEyeSlash, FaEnvelope } from 'react-icons/fa';
+import ReCAPTCHA from 'react-google-recaptcha';
 import '../styles/LoginPage.css';
 
 const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [captchaValid, setCaptchaValid] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const handleCaptchaChange = (value) => {
+    setCaptchaValid(!!value);
+  };
+
   const handleSignUp = async () => {
+    if (!captchaValid) {
+      setError('Please complete the CAPTCHA.');
+      return;
+    }
+
     setLoading(true);
-    setError('');  // Clear any previous errors
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match. Please try again.');
+      setLoading(false);
+      return;
+    }
+
     if (email.endsWith('@mail.aub.edu') || email.endsWith('@aub.edu.lb')) {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -54,38 +74,64 @@ const SignUpPage = () => {
     setShowPassword(!showPassword);
   };
 
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
-    <div className="login-container">
-      <h2 className="login-title">Sign Up</h2>
-      <div className="login-form">
-        <input
-          type="email"
-          className="login-input"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={loading}
-        />
-        <div className="password-container">
-          <input
-            type={showPassword ? "text" : "password"} // Toggle input type based on state
-            className="login-input password-input"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
+    <div className="login-form-wrapper">
+      <div className="login-container">
+        <h2 className="login-title">Sign Up</h2>
+        <div className="login-form">
+          <div className="email-container">
+            <input
+              type="email"
+              className="login-input email-input"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
+            />
+            <FaEnvelope className="email-icon" />
+          </div>
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="login-input password-input"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+            />
+            <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+          <div className="password-container">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              className="login-input password-input"
+              placeholder="Re-enter Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              disabled={loading}
+            />
+            <span className="password-toggle-icon" onClick={toggleConfirmPasswordVisibility}>
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+          <ReCAPTCHA
+            sitekey="6Lcy_igqAAAAAKvKcSfaYudIdxo7uGqcaedRzdrH" // Your reCAPTCHA v2 site key
+            onChange={handleCaptchaChange}
           />
-          <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </span>
+          <button className="login-button" onClick={handleSignUp} disabled={loading || !captchaValid}>
+            {loading ? 'Loading...' : 'Sign Up'}
+          </button>
+          {error && <p className="login-error">{error}</p>}
+          <p className="switch-form-text">
+            Already have an account? <Link to="/login">Sign In</Link>
+          </p>
         </div>
-        <button className="signup-button" onClick={handleSignUp} disabled={loading}>
-          {loading ? 'Loading...' : 'Sign Up'}
-        </button>
-        {error && <p className="login-error">{error}</p>}
-        <p className="switch-form-text">
-          Already have an account? <Link to="/login">Sign In</Link>
-        </p>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ import BDHFloor4Page from './components/BDHFloor4Page';
 import BDHFloor1Page from './components/BDHFloor1Page';
 import BDHFloor5Page from './components/BDHFloor5Page';  
 import LoginPage from './components/LoginPage';
-import SignUpPage from './components/SignUpPage';  // Importing SignUpPage component
+import SignUpPage from './components/SignUpPage';
 
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -53,9 +53,11 @@ function App() {
     return <div>Loading...</div>;
   }
 
+  const showFooter = !['/login', '/signup'].includes(window.location.pathname);
+
   return (
     <Router>
-      {user && <Header user={user} />}
+      {user && <Header user={user} />}  {/* Only show the header if the user is verified */}
       <PageTransition>
         <Routes>
           <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
@@ -75,7 +77,7 @@ function App() {
           <Route path="/heatmap" element={user ? <HeatmapPage /> : <Navigate to="/login" />} />
         </Routes>
       </PageTransition>
-      <Footer />
+      {showFooter && <Footer />}  {/* Only show the footer if not on login or sign-up page */}
     </Router>
   );
 }
