@@ -7,11 +7,11 @@ const BDHFloor1Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://hnzibndcxkgppwrbdfy4xme5mi0onkyy.lambda-url.eu-central-1.on.aws/')
+    fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
       .then((response) => response.json())
       .then((data) => {
         console.log("API Data: ", data);
-        const mappedData = mapDeviceToRooms(data.items);
+        const mappedData = mapDeviceToRooms(data);
         setRoomData(mappedData);
       })
       .catch((error) => {
@@ -30,10 +30,12 @@ const BDHFloor1Page = () => {
     };
 
     let roomData = {};
-    data.forEach((deviceEntry) => {
-      const room = deviceToRoomMapping[deviceEntry.Device];
-      if (room) {
-        roomData[room] = parseInt(deviceEntry.UniqueClients, 10);
+    Object.keys(deviceToRoomMapping).forEach((device) => {
+      const room = deviceToRoomMapping[device];
+      if (data[device]) {
+        roomData[room] = parseInt(data[device].UserCount, 10);
+      } else {
+        roomData[room] = null; // Mark as no data
       }
     });
 
@@ -44,6 +46,11 @@ const BDHFloor1Page = () => {
     if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
     if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
     return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
+  };
+
+  const getTooltipText = (room, count) => {
+    if (count === null) return `Room ${room}: No data`;
+    return `Room ${room}: ${count} students`;
   };
 
   const goToNextFloor = () => {
@@ -64,7 +71,7 @@ const BDHFloor1Page = () => {
           height: '25%',
           backgroundColor: getHighlightColor(roomData['111']),
         }}
-        data-tooltip={`Room 111: ${roomData['111'] || 'No data'} students`}
+        data-tooltip={getTooltipText('111', roomData['111'])}
       ></div>
       <div
         className="highlight"
@@ -75,7 +82,7 @@ const BDHFloor1Page = () => {
           height: '19.5%',
           backgroundColor: getHighlightColor(roomData['110']),
         }}
-        data-tooltip={`Room 110: ${roomData['110'] || 'No data'} students`}
+        data-tooltip={getTooltipText('110', roomData['110'])}
       ></div>
       <div
         className="highlight"
@@ -86,7 +93,7 @@ const BDHFloor1Page = () => {
           height: '19.5%',
           backgroundColor: getHighlightColor(roomData['109']),
         }}
-        data-tooltip={`Room 109: ${roomData['109'] || 'No data'} students`}
+        data-tooltip={getTooltipText('109', roomData['109'])}
       ></div>
       
       {/* Additional highlighted regions */}
@@ -99,7 +106,7 @@ const BDHFloor1Page = () => {
           height: '19.5%',
           backgroundColor: getHighlightColor(roomData['107']),
         }}
-        data-tooltip={`Room 107: ${roomData['107'] || 'No data'} students`}
+        data-tooltip={getTooltipText('107', roomData['107'])}
       ></div>
 
       <div
@@ -113,7 +120,7 @@ const BDHFloor1Page = () => {
           transform: 'rotate(-58deg)',
           transformOrigin: 'top left',
         }}
-        data-tooltip={`Lab 1: ${roomData['Lab1'] || 'No data'} students`}
+        data-tooltip={getTooltipText('Lab1', roomData['Lab1'])}
       ></div>
 
       <div
@@ -127,7 +134,7 @@ const BDHFloor1Page = () => {
           transform: 'rotate(-58deg)',
           transformOrigin: 'top left',
         }}
-        data-tooltip={`Lab 2: ${roomData['Lab2'] || 'No data'} students`}
+        data-tooltip={getTooltipText('Lab2', roomData['Lab2'])}
       ></div>
 
       <button className="next-floor-button" onClick={goToNextFloor}>

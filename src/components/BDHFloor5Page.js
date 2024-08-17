@@ -7,16 +7,11 @@ const BDHFloor5Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
       .then((response) => response.json())
       .then((data) => {
         console.log("API Data: ", data);
-        const mappedData = mapDeviceToRooms(data.items);
+        const mappedData = mapDeviceToRooms(data);
         setRoomData(mappedData);
       })
       .catch((error) => {
@@ -31,10 +26,12 @@ const BDHFloor5Page = () => {
     };
 
     let roomData = {};
-    data.forEach((deviceEntry) => {
-      const room = deviceToRoomMapping[deviceEntry.Device];
-      if (room) {
-        roomData[room] = parseInt(deviceEntry.UniqueClients, 10);
+    Object.keys(deviceToRoomMapping).forEach((device) => {
+      const room = deviceToRoomMapping[device];
+      if (data[device]) {
+        roomData[room] = parseInt(data[device].UserCount, 10);
+      } else {
+        roomData[room] = null; // Mark as no data
       }
     });
 
@@ -45,6 +42,11 @@ const BDHFloor5Page = () => {
     if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
     if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
     return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
+  };
+
+  const getTooltipText = (room, count) => {
+    if (count === null) return `Room ${room}: No data`;
+    return `Room ${room}: ${count} students`;
   };
 
   const goToPreviousFloor = () => {
@@ -65,7 +67,7 @@ const BDHFloor5Page = () => {
           height: '23%',
           backgroundColor: getHighlightColor(roomData['537']),
         }}
-        data-tooltip={`Conference Room 537: ${roomData['537'] || 'No data'} students`}
+        data-tooltip={getTooltipText('537', roomData['537'])}
       ></div>
 
       <div
@@ -77,7 +79,7 @@ const BDHFloor5Page = () => {
           height: '23%',
           backgroundColor: getHighlightColor(roomData['536']),
         }}
-        data-tooltip={`Conference Room 536: ${roomData['536'] || 'No data'} students`}
+        data-tooltip={getTooltipText('536', roomData['536'])}
       ></div>
 
       {/* Navigation buttons */}

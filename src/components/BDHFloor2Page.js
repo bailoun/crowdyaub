@@ -7,16 +7,12 @@ const BDHFloor2Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://74b1zqp24m.execute-api.eu-central-1.amazonaws.com/Prod/Device", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
+
       .then((response) => response.json())
       .then((data) => {
         console.log("API Data: ", data);
-        const mappedData = mapDeviceToRooms(data.items);
+        const mappedData = mapDeviceToRooms(data);
         setRoomData(mappedData);
       })
       .catch((error) => {
@@ -26,19 +22,25 @@ const BDHFloor2Page = () => {
 
   const mapDeviceToRooms = (data) => {
     const deviceToRoomMapping = {
-      'EWA.L2A.00': '211',
-      'EWA.2A2.002': '210',
-      'EWA.2A2.003': '209',
-      'EWA.2A2.004': '207',
-      'EWA.L2A.004': 'Lab1',
-      'EWA.L2A.003': 'Lab2',
+      'EWA.2A.001': '212',
+      'EWA.2A.002': '211',
+      'EWA.2A.003': '209',
+      'EWA.2A.004': '208',
+      'EWA.2A.005': '205',
+      'EWA.2A.006': '204',
+      'EWA.2A.007': '203',
+      'EWA.2A.008': '202',
+      'EWA.2A.009': '201',
+
     };
 
     let roomData = {};
-    data.forEach((deviceEntry) => {
-      const room = deviceToRoomMapping[deviceEntry.Device];
-      if (room) {
-        roomData[room] = parseInt(deviceEntry.UniqueClients, 10);
+    Object.keys(deviceToRoomMapping).forEach((device) => {
+      const room = deviceToRoomMapping[device];
+      if (data[device]) {
+        roomData[room] = parseInt(data[device].UserCount, 10);
+      } else {
+        roomData[room] = null; // Mark as no data
       }
     });
 
@@ -49,6 +51,11 @@ const BDHFloor2Page = () => {
     if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
     if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
     return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
+  };
+
+  const getTooltipText = (room, count) => {
+    if (count === null) return `Room ${room}: No data`;
+    return `Room ${room}: ${count} students`;
   };
 
   const goToNextFloor = () => {
@@ -73,7 +80,7 @@ const BDHFloor2Page = () => {
           height: '30.5%',
           backgroundColor: getHighlightColor(roomData['212']),
         }}
-        data-tooltip={`Room 212: ${roomData['212'] || 'No data'} students`}
+        data-tooltip={getTooltipText('212', roomData['212'])}
       ></div>
       
       <div
@@ -85,7 +92,7 @@ const BDHFloor2Page = () => {
           height: '30.5%',
           backgroundColor: getHighlightColor(roomData['211']),
         }}
-        data-tooltip={`Room 211: ${roomData['211'] || 'No data'} students`}
+        data-tooltip={getTooltipText('211', roomData['211'])}
       ></div>
       
       <div
@@ -97,7 +104,7 @@ const BDHFloor2Page = () => {
           height: '20.5%',
           backgroundColor: getHighlightColor(roomData['209']),
         }}
-        data-tooltip={`Room 209: ${roomData['209'] || 'No data'} students`}
+        data-tooltip={getTooltipText('209', roomData['209'])}
       ></div>
       
       <div
@@ -109,7 +116,7 @@ const BDHFloor2Page = () => {
           height: '20.5%',
           backgroundColor: getHighlightColor(roomData['208']),
         }}
-        data-tooltip={`Room 208: ${roomData['208'] || 'No data'} students`}
+        data-tooltip={getTooltipText('208', roomData['208'])}
       ></div>
 
       <div
@@ -121,7 +128,7 @@ const BDHFloor2Page = () => {
           height: '20.5%',
           backgroundColor: getHighlightColor(roomData['205']),
         }}
-        data-tooltip={`Room 205: ${roomData['205'] || 'No data'} students`}
+        data-tooltip={getTooltipText('205', roomData['205'])}
       ></div>
       
       <div
@@ -133,7 +140,7 @@ const BDHFloor2Page = () => {
           height: '30.5%',
           backgroundColor: getHighlightColor(roomData['204']),
         }}
-        data-tooltip={`Room 204: ${roomData['204'] || 'No data'} students`}
+        data-tooltip={getTooltipText('204', roomData['204'])}
       ></div>
       
       <div
@@ -145,7 +152,7 @@ const BDHFloor2Page = () => {
           height: '23%',
           backgroundColor: getHighlightColor(roomData['203']),
         }}
-        data-tooltip={`Room 203: ${roomData['203'] || 'No data'} students`}
+        data-tooltip={getTooltipText('203', roomData['203'])}
       ></div>
 
       <div
@@ -157,7 +164,7 @@ const BDHFloor2Page = () => {
           height: '30.5%',
           backgroundColor: getHighlightColor(roomData['202']),
         }}
-        data-tooltip={`Room 202: ${roomData['202'] || 'No data'} students`}
+        data-tooltip={getTooltipText('202', roomData['202'])}
       ></div>
       
       <div
@@ -169,7 +176,7 @@ const BDHFloor2Page = () => {
           height: '18%',
           backgroundColor: getHighlightColor(roomData['201']),
         }}
-        data-tooltip={`Room 201: ${roomData['201'] || 'No data'} students`}
+        data-tooltip={getTooltipText('201', roomData['201'])}
       ></div>
 
       <button className="next-floor-button" onClick={goToNextFloor}>
