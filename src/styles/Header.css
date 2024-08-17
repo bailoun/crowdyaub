@@ -30,15 +30,28 @@
     gap: 2rem; /* Increase the space between navbar items */
 }
 
-.header .nav-links li a {
+/* Styles for navigation links including the Logout button */
+.header .nav-links li a,
+.header .nav-links .nav-link {
     color: #fff;
     text-decoration: none;
     transition: color 0.3s ease-in-out; /* Add transition effect */
+    font-size: 1rem; /* Match the font size */
+    font-family: inherit; /* Inherit font family */
+    cursor: pointer; /* Change cursor to pointer */
+    padding: 0; /* Remove padding */
+    background: none; /* Remove background */
+    border: none; /* Remove border */
 }
 
-.header .nav-links li a:hover {
+.header .nav-links li a:hover,
+.header .nav-links .nav-link:hover {
     color: #ddd;
     text-decoration: underline; /* Add underline on hover */
+}
+
+.header .nav-links .nav-link:focus {
+    outline: none; /* Remove the focus outline */
 }
 
 /* Hide the nav-links on mobile devices */
@@ -93,7 +106,8 @@
         padding: 1rem 0;
     }
 
-    .header .nav-links li a {
+    .header .nav-links li a,
+    .header .nav-links .nav-link {
         color: #fff;
         text-decoration: none;
     }

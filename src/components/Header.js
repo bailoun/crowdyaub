@@ -1,8 +1,12 @@
+// src/components/Header.js
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 import '../styles/Header.css';
 
-const Header = () => {
+const Header = ({ user }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +27,12 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      navigate('/login');
+    });
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -38,6 +48,11 @@ const Header = () => {
             <li><Link to="/heatmap" onClick={toggleMenu}>Heatmap</Link></li>
             <li><a href="#about" onClick={() => { toggleMenu(); scrollToSection('about'); }}>About Us</a></li>
             <li><a href="#contact" onClick={() => { toggleMenu(); scrollToSection('contact'); }}>Contact</a></li>
+            {user ? (
+              <li><button className="nav-link" onClick={handleLogout}>Logout</button></li>
+            ) : (
+              <li><Link to="/login" onClick={toggleMenu}>Login</Link></li>
+            )}
           </ul>
         </nav>
       </div>
