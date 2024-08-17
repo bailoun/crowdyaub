@@ -7,7 +7,7 @@ const BDHFloor1Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://yhx5alei6k.execute-api.eu-central-1.amazonaws.com/Prod/devices')
+    fetch('https://wm1zuhiuwf.execute-api.eu-central-1.amazonaws.com/Prod/devices')
       .then((response) => response.json())
       .then((data) => {
         console.log("API Data: ", data);
