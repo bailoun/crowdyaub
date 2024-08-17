@@ -16,10 +16,12 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [captchaError, setCaptchaError] = useState('');  // New state for captcha error message
   const navigate = useNavigate();
 
   const handleCaptchaChange = (value) => {
     setCaptchaValid(!!value);
+    setCaptchaError('');  // Clear the captcha error message when CAPTCHA is completed
   };
 
   const handlePasswordReset = async () => {
@@ -49,7 +51,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     if (!captchaValid) {
-      setError('Please complete the CAPTCHA.');
+      setCaptchaError('Please complete the CAPTCHA.');
       return;
     }
 
@@ -125,11 +127,14 @@ const LoginPage = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-          <ReCAPTCHA
-            sitekey="6Lcy_igqAAAAAKvKcSfaYudIdxo7uGqcaedRzdrH" // Your reCAPTCHA v2 site key
-            onChange={handleCaptchaChange}
-          />
-          <button className="login-button" onClick={handleLogin} disabled={loading || !captchaValid}>
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem 0' }}>
+            <ReCAPTCHA
+              sitekey="6Lcy_igqAAAAAKvKcSfaYudIdxo7uGqcaedRzdrH"
+              onChange={handleCaptchaChange}
+            />
+          </div>
+          {captchaError && <p className="login-error">{captchaError}</p>}
+          <button className="login-button" onClick={handleLogin} disabled={loading}>
             {loading ? 'Loading...' : 'Login'}
           </button>
           <p className="forgot-password-text" onClick={handlePasswordReset}>

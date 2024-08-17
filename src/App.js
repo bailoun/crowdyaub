@@ -58,25 +58,27 @@ function App() {
   return (
     <Router>
       {user && <Header user={user} />}  {/* Only show the header if the user is verified */}
-      <PageTransition>
-        <Routes>
-          <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/areas" element={user ? <AreasPage /> : <Navigate to="/login" />} />
-          <Route path="/libraries" element={user ? <LibrariesPage /> : <Navigate to="/login" />} />
-          <Route path="/jafet" element={user ? <JafetLibraryPage /> : <Navigate to="/login" />} />
-          <Route path="/saab-medical" element={user ? <SaabMedicalLibraryPage /> : <Navigate to="/login" />} />
-          <Route path="/science-engineering" element={user ? <ScienceEngineeringLibraryPage /> : <Navigate to="/login" />} />
-          <Route path="/study-areas" element={user ? <StudyAreasPage /> : <Navigate to="/login" />} />
-          <Route path="/bdh" element={user ? <BDHFloorsPage /> : <Navigate to="/login" />} />
-          <Route path="/bdh/floor-1" element={user ? <BDHFloor1Page /> : <Navigate to="/login" />} /> 
-          <Route path="/bdh/floor-2" element={user ? <BDHFloor2Page /> : <Navigate to="/login" />} />
-          <Route path="/bdh/floor-4" element={user ? <BDHFloor4Page /> : <Navigate to="/login" />} />
-          <Route path="/bdh/floor-5" element={user ? <BDHFloor5Page /> : <Navigate to="/login" />} />
-          <Route path="/heatmap" element={user ? <HeatmapPage /> : <Navigate to="/login" />} />
-        </Routes>
-      </PageTransition>
+      <main>
+        <PageTransition>
+          <Routes>
+            <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/areas" element={user ? <AreasPage /> : <Navigate to="/login" />} />
+            <Route path="/libraries" element={user ? <LibrariesPage /> : <Navigate to="/login" />} />
+            <Route path="/jafet" element={user ? <JafetLibraryPage /> : <Navigate to="/login" />} />
+            <Route path="/saab-medical" element={user ? <SaabMedicalLibraryPage /> : <Navigate to="/login" />} />
+            <Route path="/science-engineering" element={user ? <ScienceEngineeringLibraryPage /> : <Navigate to="/login" />} />
+            <Route path="/study-areas" element={user ? <StudyAreasPage /> : <Navigate to="/login" />} />
+            <Route path="/bdh" element={user ? <BDHFloorsPage /> : <Navigate to="/login" />} />
+            <Route path="/bdh/floor-1" element={user ? <BDHFloor1Page /> : <Navigate to="/login" />} /> 
+            <Route path="/bdh/floor-2" element={user ? <BDHFloor2Page /> : <Navigate to="/login" />} />
+            <Route path="/bdh/floor-4" element={user ? <BDHFloor4Page /> : <Navigate to="/login" />} />
+            <Route path="/bdh/floor-5" element={user ? <BDHFloor5Page /> : <Navigate to="/login" />} />
+            <Route path="/heatmap" element={user ? <HeatmapPage /> : <Navigate to="/login" />} />
+          </Routes>
+        </PageTransition>
+      </main>
       {showFooter && <Footer />}  {/* Only show the footer if not on login or sign-up page */}
     </Router>
   );

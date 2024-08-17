@@ -4,6 +4,9 @@
     color: #fff;
     padding: 1rem 0;
     position: relative; /* Needed for hamburger menu positioning */
+    width: 100%; /* Ensure the header spans the full width */
+    z-index: 1000; /* Ensure the header is above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better visibility */
 }
 
 .header .container {
@@ -11,6 +14,9 @@
     justify-content: space-between;
     align-items: center;
     position: relative; /* Allow positioning of the hamburger menu */
+    max-width: 1200px; /* Ensure the container has a maximum width */
+    margin: 0 auto; /* Center the container */
+    padding: 0 1rem; /* Add padding to prevent content from touching the screen edges */
 }
 
 .header .logo {

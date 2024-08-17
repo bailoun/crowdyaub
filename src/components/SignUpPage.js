@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../firebase'; // Correct import for auth
 import { FaEye, FaEyeSlash, FaEnvelope } from 'react-icons/fa';
 import ReCAPTCHA from 'react-google-recaptcha';
 import '../styles/LoginPage.css';
@@ -15,17 +15,19 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captchaValid, setCaptchaValid] = useState(false);
+  const [captchaError, setCaptchaError] = useState('');  // New state for captcha error message
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleCaptchaChange = (value) => {
     setCaptchaValid(!!value);
+    setCaptchaError('');  // Clear the captcha error message when CAPTCHA is completed
   };
 
   const handleSignUp = async () => {
     if (!captchaValid) {
-      setError('Please complete the CAPTCHA.');
+      setCaptchaError('Please complete the CAPTCHA.');
       return;
     }
 
@@ -120,11 +122,14 @@ const SignUpPage = () => {
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-          <ReCAPTCHA
-            sitekey="6Lcy_igqAAAAAKvKcSfaYudIdxo7uGqcaedRzdrH" // Your reCAPTCHA v2 site key
-            onChange={handleCaptchaChange}
-          />
-          <button className="login-button" onClick={handleSignUp} disabled={loading || !captchaValid}>
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem 0' }}>
+            <ReCAPTCHA
+              sitekey="6Lcy_igqAAAAAKvKcSfaYudIdxo7uGqcaedRzdrH"
+              onChange={handleCaptchaChange}
+            />
+          </div>
+          {captchaError && <p className="login-error">{captchaError}</p>}
+          <button className="login-button" onClick={handleSignUp} disabled={loading}>
             {loading ? 'Loading...' : 'Sign Up'}
           </button>
           {error && <p className="login-error">{error}</p>}
