@@ -7,8 +7,8 @@ const BDHFloor5Page = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
-      .then((response) => response.json())
       .then((data) => {
         console.log("API Data: ", data);
         const mappedData = mapDeviceToRooms(data);
