@@ -28,7 +28,10 @@ const HomePage = () => {
           <div className="hero-text">
             <h2>Crowdy</h2>
             <p>Track Campus Traffic Instantly</p>
-            <Link to="/areas" className="btn">View Areas</Link>
+            {/* Wrap the button in a div */}
+            <div style={{ marginTop: '2rem' }}> 
+              <Link to="/areas" className="btn">View Areas</Link>
+            </div>
           </div>
         </div>
       </section>

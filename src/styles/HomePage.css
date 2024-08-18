@@ -43,11 +43,16 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 1.5rem; /* Adjust this value to move only the button down */
+    text-decoration: none;
 }
 
 .hero-text .btn:hover {
     background-color: #a9a9a9;
 }
+
+
+
 
 .idea {
     padding: 2rem 0;

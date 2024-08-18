@@ -5,17 +5,15 @@ import '../styles/PageTransition.css';
 
 const PageTransition = ({ children }) => {
   const location = useLocation();
-  const nodeRef = React.useRef(null); // Create a ref for the transition
 
   return (
     <TransitionGroup>
       <CSSTransition
-        key={location.key}
+        key={location.pathname}
         classNames="fade"
-        timeout={300}
-        nodeRef={nodeRef} // Pass the ref to the CSSTransition
+        timeout={300} // Duration of the transition
       >
-        <div ref={nodeRef}> {/* Attach the ref to the DOM element */}
+        <div className="page-transition">
           {children}
         </div>
       </CSSTransition>

@@ -3,7 +3,8 @@
     background-color: #333;
     color: #fff;
     padding: 1rem 0;
-    position: relative; /* Needed for hamburger menu positioning */
+    position: fixed; /* Navbar stays fixed at the top */
+    top: 0; /* Ensure it sticks to the top */
     width: 100%; /* Ensure the header spans the full width */
     z-index: 1000; /* Ensure the header is above other content */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better visibility */
@@ -68,13 +69,14 @@
     gap: 5px;
     position: absolute;
     left: 20px; /* Position it to the left */
+    z-index: 1100; /* Ensure it stays above other elements */
 }
 
 .hamburger span {
     width: 25px;
     height: 3px;
     background-color: #fff;
-    transition: 0.3s;
+    transition: transform 0.3s ease-in-out;
 }
 
 /* MEDIA QUERIES FOR RESPONSIVENESS */
@@ -101,10 +103,14 @@
         width: 100%;
         padding: 1rem 0;
         z-index: 1000; /* Ensure the menu is above other content */
+        max-height: 0; /* Initially hide the content */
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
     }
 
     .header .nav-links.show {
-        display: flex; /* Show the nav-links when hamburger is clicked */
+        display: flex;
+        max-height: 500px; /* Adjust based on the content height */
     }
 
     .header .nav-links li {
@@ -121,4 +127,9 @@
     .hamburger {
         display: flex; /* Show hamburger menu */
     }
+}
+
+/* Add padding to the body to avoid overlap with the fixed navbar */
+body {
+    padding-top: 80px; /* Adjust the padding based on the height of your navbar */
 }

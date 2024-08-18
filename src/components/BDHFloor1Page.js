@@ -1,56 +1,88 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/BDHFloorHeatmap.css';
+import '../styles/BDHFloorPage.css';
 
 const BDHFloor1Page = () => {
   const [roomData, setRoomData] = useState({});
   const navigate = useNavigate();
 
+  const mapDeviceToRooms = useCallback((data) => {
+    const deviceToRoomMapping = {
+      'EWA.L1A.001': 'Room 111',
+      'EWA.2A1.002': 'Room 110',
+      'EWA.2A1.003': 'Room 109',
+      'EWA.2A1.004': 'Room 107',
+      'EWA.L1A.004': 'BDH',
+      'EWA.L1A.003': 'Red Room',
+    };
+
+    const capacities = {
+      'Room 111': 60,
+      'Room 110': 42,
+      'Room 109': 48,
+      'Room 107': 88,
+      'BDH': 72,
+      'Red Room': 17,
+    };
+
+    let roomData = {};
+    Object.keys(deviceToRoomMapping).forEach((device) => {
+      const room = deviceToRoomMapping[device];
+      const capacity = capacities[room];
+      if (data[device]) {
+        const currentStudents = parseInt(data[device].UserCount, 10);
+        roomData[room] = {
+          currentStudents,
+          capacity,
+          status: getRoomStatus(currentStudents, capacity),
+        };
+      } else {
+        roomData[room] = {
+          currentStudents: 0,
+          capacity,
+          status: getRoomStatus(0, capacity),
+        };
+      }
+    });
+
+    return roomData;
+  }, []);
+
+  const getRoomStatus = (currentStudents, capacity) => {
+    if (currentStudents <= 0.25 * capacity) return 'Almost Empty';
+    if (currentStudents < 0.75 * capacity) return 'Half Capacity';
+    return 'Full Capacity';
+  };
+
   useEffect(() => {
-     fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
+    fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
       .then((response) => response.json())
       .then((data) => {
-        console.log("API Data: ", data);
         const mappedData = mapDeviceToRooms(data);
         setRoomData(mappedData);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [mapDeviceToRooms]);
 
-  const mapDeviceToRooms = (data) => {
-    const deviceToRoomMapping = {
-      'EWA.L1A.00': '111',
-      'EWA.2A1.002': '110', 
-      'EWA.2A1.003': '109',
-      'EWA.2A1.004': '107',
-      'EWA.L1A.004': 'Lab1',
-      'EWA.L1A.003': 'Lab2',
-    };
-
-    let roomData = {};
-    Object.keys(deviceToRoomMapping).forEach((device) => {
-      const room = deviceToRoomMapping[device];
-      if (data[device]) {
-        roomData[room] = parseInt(data[device].UserCount, 10);
-      } else {
-        roomData[room] = null; // Mark as no data
-      }
-    });
-
-    return roomData;
+  const getHighlightColor = (status) => {
+    switch (status) {
+      case 'Almost Empty':
+        return 'rgba(0, 255, 0, 0.5)'; // Green
+      case 'Half Capacity':
+        return 'rgba(255, 255, 0, 0.5)'; // Yellow
+      case 'Full Capacity':
+        return 'rgba(255, 0, 0, 0.5)'; // Red
+      default:
+        return 'rgba(0, 255, 0, 0.5)'; // Default to Green
+    }
   };
 
-  const getHighlightColor = (peopleCount) => {
-    if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
-    if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
-    return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
-  };
-
-  const getTooltipText = (room, count) => {
-    if (count === null) return `Room ${room}: No data`;
-    return `Room ${room}: ${count} students`;
+  const getTooltipText = (room, data) => {
+    return !data || data.currentStudents === null
+      ? `${room}: No data`
+      : `${room}: ${data.currentStudents} students`;
   };
 
   const goToNextFloor = () => {
@@ -59,84 +91,112 @@ const BDHFloor1Page = () => {
 
   return (
     <div className="floor-plan-container">
-      <img src="/bdh-floor-1.png" alt="BDH Floor 1" className="floor-plan-image" />
-      
-      {/* Highlighting classrooms based on the image layout */}
-      <div
-        className="highlight"
-        style={{
-          top: '24%',
-          left: '40%',
-          width: '5%',
-          height: '25%',
-          backgroundColor: getHighlightColor(roomData['111']),
-        }}
-        data-tooltip={getTooltipText('111', roomData['111'])}
-      ></div>
-      <div
-        className="highlight"
-        style={{
-          top: '24%',
-          left: '45.5%',
-          width: '5%',
-          height: '19.5%',
-          backgroundColor: getHighlightColor(roomData['110']),
-        }}
-        data-tooltip={getTooltipText('110', roomData['110'])}
-      ></div>
-      <div
-        className="highlight"
-        style={{
-          top: '24%',
-          left: '51%',
-          width: '5%',
-          height: '19.5%',
-          backgroundColor: getHighlightColor(roomData['109']),
-        }}
-        data-tooltip={getTooltipText('109', roomData['109'])}
-      ></div>
-      
-      {/* Additional highlighted regions */}
-      <div
-        className="highlight"
-        style={{
-          top: '24%',
-          left: '61.5%',
-          width: '6.5%',
-          height: '19.5%',
-          backgroundColor: getHighlightColor(roomData['107']),
-        }}
-        data-tooltip={getTooltipText('107', roomData['107'])}
-      ></div>
-
-      <div
-        className="highlight"
-        style={{
-          top: '48%',
-          left: '70%',
-          width: '7.5%',
-          height: '49%',
-          backgroundColor: getHighlightColor(roomData['Lab1']),
-          transform: 'rotate(-58deg)',
-          transformOrigin: 'top left',
-        }}
-        data-tooltip={getTooltipText('Lab1', roomData['Lab1'])}
-      ></div>
-
-      <div
-        className="highlight"
-        style={{
-          top: '60%',
-          left: '68%',
-          width: '5%',
-          height: '45%',
-          backgroundColor: getHighlightColor(roomData['Lab2']),
-          transform: 'rotate(-58deg)',
-          transformOrigin: 'top left',
-        }}
-        data-tooltip={getTooltipText('Lab2', roomData['Lab2'])}
-      ></div>
-
+      <h1>BDH Floor 1</h1>
+      <div className="floor-plan-image-container">
+        <img src="/bdh-floor-1.png" alt="BDH Floor 1" className="floor-plan-image" />
+        {roomData['Room 111'] && (
+          <div
+            className="highlight"
+            style={{
+              top: '22%',
+              left: '40%',
+              width: '5.2%',
+              height: '25%',
+              backgroundColor: getHighlightColor(roomData['Room 111'].currentStudents),
+            }}
+            data-tooltip={getTooltipText('Room 111', roomData['Room 111'])}
+          ></div>
+        )}
+        {roomData['Room 110'] && (
+          <div
+            className="highlight"
+            style={{
+              top: '22%',
+              left: '45.45%',
+              width: '5%',
+              height: '20%',
+              backgroundColor: getHighlightColor(roomData['Room 110'].currentStudents),
+            }}
+            data-tooltip={getTooltipText('Room 110', roomData['Room 110'])}
+          ></div>
+        )}
+        {roomData['Room 109'] && (
+          <div
+            className="highlight"
+            style={{
+              top: '22%',
+              left: '50.8%',
+              width: '5%',
+              height: '20%',
+              backgroundColor: getHighlightColor(roomData['Room 109'].currentStudents),
+            }}
+            data-tooltip={getTooltipText('Room 109', roomData['Room 109'])}
+          ></div>
+        )}
+        {roomData['Room 107'] && (
+          <div
+            className="highlight"
+            style={{
+              top: '22%',
+              left: '61.3%',
+              width: '6.7%',
+              height: '20%',
+              backgroundColor: getHighlightColor(roomData['Room 107'].currentStudents),
+            }}
+            data-tooltip={getTooltipText('Room 107', roomData['Room 107'])}
+          ></div>
+        )}
+        {roomData['BDH'] && (
+          <div
+            className="highlight"
+            style={{
+              top: '42%',
+              left: '70%',
+              width: '6%',
+              height: '49%',
+              backgroundColor: getHighlightColor(roomData['BDH'].currentStudents),
+              transform: 'rotate(-58deg)',
+              transformOrigin: 'top left',
+            }}
+            data-tooltip={getTooltipText('BDH', roomData['BDH'])}
+          ></div>
+        )}
+        {roomData['Red Room'] && (
+          <div
+            className="highlight"
+            style={{
+              top: '60%',
+              left: '68%',
+              width: '5%',
+              height: '43%',
+              backgroundColor: getHighlightColor(roomData['Red Room'].currentStudents),
+              transform: 'rotate(-58deg)',
+              transformOrigin: 'top left',
+            }}
+            data-tooltip={getTooltipText('Red Room', roomData['Red Room'])}
+          ></div>
+        )}
+      </div>
+      <table className="room-data-table">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th>Number of Students</th>
+            <th>Capacity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(roomData).map((room, index) => (
+            <tr key={index}>
+              <td>{room}</td>
+              <td>{roomData[room].currentStudents}</td>
+              <td>{roomData[room].capacity}</td>
+              <td>{roomData[room].status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <button className="next-floor-button" onClick={goToNextFloor}>
         Next Floor &gt;
       </button>

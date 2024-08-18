@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+  
+  .floor-plan-container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    width: 100%;
+    padding: 20px 20px 80px; /* Increase bottom padding to ensure space for the button */
+    background-color: #f8f9fa; /* Soft background color to contrast the table */
+  }
+  
+  .floor-plan-image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+  }
+  
+  .floor-plan-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* Adds space between image and table */
+  }
+  
+  .highlight {
+    position: absolute;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    pointer-events: auto; /* Allow mouse interactions */
+  }
+  
+  /* Tooltip styles */
+  .highlight[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000; /* Ensure tooltip appears above other elements */
+  }
+  
+  .room-data-table {
+    width: 80%; /* Reduce the width to 80% of its container */
+    max-width: 1000px; /* Set a max-width to prevent it from becoming too wide */
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    background-color: #ffffff; /* Ensure the table has a white background */
+    border-radius: 8px; /* Round the corners of the table */
+    overflow: hidden; /* Ensure border-radius is applied to the table */
+  }
+  
+  .room-data-table th,
+  .room-data-table td {
+    padding: 12px 20px; /* Keep padding for better readability */
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Subtle borders */
+  }
+  
+  .room-data-table th {
+    background-color: #333; /* Header background color */
+    color: #fff; /* White text for the header */
+    font-weight: 600; /* Make the text bold */
+    text-transform: capitalize;
+  }
+  
+  .room-data-table td {
+    background-color: #fff;
+    color: #333; /* Dark text for better readability */
+  }
+  
+  .room-data-table tr:nth-child(even) td {
+    background-color: #f9f9f9; /* Lighter background for alternating rows */
+  }
+  
+  .room-data-table tr:hover td {
+    background-color: #f1f1f1;
+    color: #000; /* Darker text on hover for better readability */
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px; /* Add space above the buttons */
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px; /* Add padding for responsive spacing */
+  }
+  
+  .previous-floor-button,
+  .next-floor-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #333; /* Bootstrap primary blue */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: fit-content; /* Only take up the width needed for the content */
+    text-align: center;
+  }
+  
+  .previous-floor-button:hover,
+  .next-floor-button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .floor-plan-container {
+      padding: 10px; /* Reduce padding on smaller screens */
+    }
+  
+    .floor-plan-image-container {
+      width: 100%; /* Ensure the container scales with the screen size */
+    }
+  
+    .highlight-room-434 {
+      top: 35%;
+      left: 56%;
+      width: 10%; /* Adjust width for small screens */
+      height: 12%; /* Adjust height for small screens */
+    }
+  
+    .highlight-room-435 {
+      top: 42%;
+      left: 30%;
+      width: 15%; /* Adjust width for small screens */
+      height: 12%; /* Adjust height for small screens */
+    }
+  
+    .room-data-table {
+      width: 100%; /* Make it 100% width on smaller screens */
+    }
+  
+    .room-data-table th,
+    .room-data-table td {
+      padding: 10px 15px; /* Reduce padding for smaller screens */
+    }
+  
+    .navigation-buttons {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px; /* Adjust margin for smaller screens */
+    }
+  
+    .previous-floor-button,
+    .next-floor-button {
+      margin-bottom: 10px; /* Add space between buttons on small screens */
+      width: 90%; /* Make buttons take up more space on small screens */
+      max-width: none;
+      font-size: 14px; /* Reduce font size for better fit */
+    }
+  }
+  

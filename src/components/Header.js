@@ -1,5 +1,3 @@
-// src/components/Header.js
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
@@ -18,7 +16,9 @@ const Header = ({ user }) => {
     setTimeout(() => {
       const section = document.getElementById(sectionId);
       if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
+        const yOffset = -80; // Adjust this value based on the navbar height
+        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }, 100); // Delay to ensure HomePage component has rendered
   };

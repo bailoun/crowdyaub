@@ -1,7 +1,5 @@
-// src/App.js
-
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
@@ -14,21 +12,23 @@ import HeatmapPage from './components/HeatmapPage';
 import PageTransition from './components/PageTransition';
 import StudyAreasPage from './components/StudyAreasPage';  
 import BDHFloorsPage from './components/BDHFloorsPage';  
+import BDHFloor1Page from './components/BDHFloor1Page';
 import BDHFloor2Page from './components/BDHFloor2Page';
 import BDHFloor4Page from './components/BDHFloor4Page';  
-import BDHFloor1Page from './components/BDHFloor1Page';
 import BDHFloor5Page from './components/BDHFloor5Page';  
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
+import LoadingPage from './components/LoadingPage';
 
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import './App.css';
 
-function App() {
+function AppContent() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation(); // Get the current location
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -50,15 +50,18 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
-  const showFooter = !['/login', '/signup'].includes(window.location.pathname);
+  // Check if the current path should hide the header or footer
+  const shouldShowHeaderAndFooter = () => {
+    return !['/login', '/signup'].includes(location.pathname);
+  };
 
   return (
-    <Router>
-      {user && <Header user={user} />}  {/* Only show the header if the user is verified */}
-      <main>
+    <>
+      {shouldShowHeaderAndFooter() && <Header user={user} />} {/* Conditionally render the header */}
+      <div className="main-content">
         <PageTransition>
           <Routes>
             <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
@@ -78,8 +81,16 @@ function App() {
             <Route path="/heatmap" element={user ? <HeatmapPage /> : <Navigate to="/login" />} />
           </Routes>
         </PageTransition>
-      </main>
-      {showFooter && <Footer />}  {/* Only show the footer if not on login or sign-up page */}
+      </div>
+      {shouldShowHeaderAndFooter() && <Footer />}  {/* Conditionally render the footer */}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

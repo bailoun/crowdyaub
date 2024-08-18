@@ -1,17 +1,78 @@
-/* HeatmapPage styles */
+/* Main styles for the heatmap page */
 .heatmap {
     padding: 2rem 0;
-}
-
-.heatmap .container {
+  }
+  
+  .heatmap .container {
     text-align: center;
-}
-
-.heatmap-image {
+  }
+  
+  .heatmap-container {
+    position: relative;
+  }
+  
+  .heatmap-image {
     width: 100%;
-    max-width: 1200px; /* Add a max-width to prevent the image from becoming too large on wide screens */
+    max-width: 1200px;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for better visibility */
-    margin: 0 auto; /* Center the image horizontally */
-}
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+  }
+  
+  .highlighted-area {
+    position: absolute;
+    top: 39%; /* Use percentage for responsive positioning */
+    left: 51%; /* Use percentage for responsive positioning */
+    width: 7.5%; /* Use percentage for responsive sizing */
+    height: 3%; /* Use percentage for responsive sizing */
+    background-color: rgba(43, 255, 0, 0.5); /* Default color, will be overridden */
+    pointer-events: auto;
+    z-index: 10;
+    cursor: pointer; /* Make it clear that the area is clickable */
+  }
+  
+  /* Tooltip styles */
+  .highlighted-area[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 15;
+    opacity: 1;
+    pointer-events: none;
+  }
+  
+  .highlighted-area[data-tooltip]::after {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .highlighted-area:hover[data-tooltip]::after {
+    opacity: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .highlighted-area {
+      top: 38%;
+      left: 52%;
+      width: 7%;
+      height: 4%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .highlighted-area {
+      top: 38%;
+      left: 52%;
+      width: 5%;
+      height: 3%;
+    }
+  }
+  

@@ -6,7 +6,7 @@ const BDHFloorsPage = () => (
   <main>
     <section className="bdh-floors fade-in">
       <div className="container">
-        <h2>BDH Floors</h2>
+        <h2>Bechtel Floors</h2>
         <div className="floors-grid">
           {[1, 2, 4, 5].map((floor) => (
             <div key={floor} className="floor-card">

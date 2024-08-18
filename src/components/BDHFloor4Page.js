@@ -1,52 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/BDHFloorHeatmap.css';
+import '../styles/BDHFloor45Page.css';
 
 const BDHFloor4Page = () => {
   const [roomData, setRoomData] = useState({});
   const navigate = useNavigate();
 
+  const mapDeviceToRooms = useCallback((data) => {
+    const deviceToRoomMapping = {
+      'EWA.F04.02': 'Room 434',
+      'EWA.F04.05': 'Room 435',
+    };
+
+    const capacities = {
+      'Room 434': 14,
+      'Room 435': 24,
+    };
+
+    let roomData = {};
+    Object.keys(deviceToRoomMapping).forEach((device) => {
+      const room = deviceToRoomMapping[device];
+      const capacity = capacities[room];
+      if (data[device]) {
+        const currentStudents = parseInt(data[device].UserCount, 10);
+        roomData[room] = {
+          currentStudents,
+          capacity,
+          status: getRoomStatus(currentStudents, capacity),
+        };
+      } else {
+        roomData[room] = {
+          currentStudents: 0,
+          capacity,
+          status: getRoomStatus(0, capacity),
+        };
+      }
+    });
+
+    return roomData;
+  }, []);
+
+  const getRoomStatus = (currentStudents, capacity) => {
+    if (currentStudents <= 0.25 * capacity) return 'Almost Empty';
+    if (currentStudents < 0.75 * capacity) return 'Half Capacity';
+    return 'Full Capacity';
+  };
+
   useEffect(() => {
-       fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
+    fetch('https://3oiryog5g8.execute-api.eu-central-1.amazonaws.com/Prod/devices')
       .then((response) => response.json())
       .then((data) => {
-        console.log("API Data: ", data);
         const mappedData = mapDeviceToRooms(data);
         setRoomData(mappedData);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [mapDeviceToRooms]);
 
-  const mapDeviceToRooms = (data) => {
-    const deviceToRoomMapping = {
-      'EWA.F04.02': '434',
-      'EWA.F04.05': '435',
-    };
-
-    let roomData = {};
-    Object.keys(deviceToRoomMapping).forEach((device) => {
-      const room = deviceToRoomMapping[device];
-      if (data[device]) {
-        roomData[room] = parseInt(data[device].UserCount, 10);
-      } else {
-        roomData[room] = null; // Mark as no data
-      }
-    });
-
-    return roomData;
+  const getHighlightColor = (status) => {
+    switch (status) {
+      case 'Almost Empty':
+        return 'rgba(0, 255, 0, 0.5)'; // Green
+      case 'Half Capacity':
+        return 'rgba(255, 255, 0, 0.5)'; // Yellow
+      case 'Full Capacity':
+        return 'rgba(255, 0, 0, 0.5)'; // Red
+      default:
+        return 'rgba(0, 255, 0, 0.5)'; // Default to Green
+    }
   };
 
-  const getHighlightColor = (peopleCount) => {
-    if (peopleCount > 20) return 'rgba(255, 0, 0, 0.5)'; // Red with transparency
-    if (peopleCount > 10) return 'rgba(255, 255, 0, 0.5)'; // Yellow with transparency
-    return 'rgba(0, 255, 0, 0.5)'; // Green with transparency
-  };
-
-  const getTooltipText = (room, count) => {
-    if (count === null) return `Room ${room}: No data`;
-    return `Room ${room}: ${count} students`;
+  const getTooltipText = (room, data) => {
+    if (!data) return `${room}: No data`;
+    return `${room}: ${data.currentStudents} students (${data.status})`;
   };
 
   const goToNextFloor = () => {
@@ -59,41 +86,68 @@ const BDHFloor4Page = () => {
 
   return (
     <div className="floor-plan-container">
-      <img src="/bdh-floor-4.png" alt="BDH Floor 4" className="floor-plan-image" />
-      
-      {/* Highlighting rooms and offices based on the image layout */}
-      <div
-        className="highlight"
-        style={{
-          top: '29%',
-          left: '52%',
-          width: '14%',
-          height: '24%',
-          backgroundColor: getHighlightColor(roomData['434']),
-        }}
-        data-tooltip={getTooltipText('434', roomData['434'])}
-      ></div>
+      <div className="floor-plan-image-container">
+        <img src="/bdh-floor-4.png" alt="BDH Floor 4" className="floor-plan-image" />
 
-      <div
-        className="highlight"
-        style={{
-          top: '29%',
-          left: '26.5%',
-          width: '21%',
-          height: '24%',
-          backgroundColor: getHighlightColor(roomData['435']),
-        }}
-        data-tooltip={getTooltipText('435', roomData['435'])}
-      ></div>
+        {roomData['Room 434'] && (
+          <div
+            className="highlight highlight-room-434"
+            style={{
+              top: '27.2%',
+              left: '52%',
+              width: '14%',
+              height: '23%',
+              backgroundColor: getHighlightColor(roomData['Room 434'].status),
+            }}
+            data-tooltip={getTooltipText('Room 434', roomData['Room 434'])}
+          ></div>
+        )}
 
-      {/* Navigation buttons */}
-      <button className="next-floor-button" onClick={goToNextFloor}>
-        Next Floor &gt;
-      </button>
+        {roomData['Room 435'] && (
+          <div
+            className="highlight highlight-room-435"
+            style={{
+              top: '27.2%',
+              left: '26.5%',
+              width: '21.2%',
+              height: '23%',
+              backgroundColor: getHighlightColor(roomData['Room 435'].status),
+            }}
+            data-tooltip={getTooltipText('Room 435', roomData['Room 435'])}
+          ></div>
+        )}
+      </div>
 
-      <button className="previous-floor-button" onClick={goToPreviousFloor}>
-        &lt; Previous Floor
-      </button>
+      {/* Adding a table under the floor plan */}
+      <table className="room-data-table">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th>Number of Students</th>
+            <th>Capacity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(roomData).map((room, index) => (
+            <tr key={index}>
+              <td>{room}</td>
+              <td>{roomData[room].currentStudents}</td>
+              <td>{roomData[room].capacity}</td>
+              <td>{roomData[room].status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="navigation-buttons">
+        <button className="previous-floor-button" onClick={goToPreviousFloor}>
+          &lt; Previous Floor
+        </button>
+        <button className="next-floor-button" onClick={goToNextFloor}>
+          Next Floor &gt;
+        </button>
+      </div>
     </div>
   );
 };

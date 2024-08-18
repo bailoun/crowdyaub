@@ -30,6 +30,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Disable and gray out specific area cards */
+.area-card.disabled {
+    background-color: #f0f0f0; /* Gray background */
+    color: #aaa; /* Gray text */
+    cursor: not-allowed !important; /* Built-in 'no entry' cursor */
+    pointer-events: all; /* Disable interaction */
+    box-shadow: none; /* Remove shadow */
+}
+
+.area-card.disabled img {
+    filter: grayscale(100%); /* Gray out the image */
+}
+
 .area-card img {
     width: 100%;
     border-radius: 8px;
