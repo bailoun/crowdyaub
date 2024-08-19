@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+1. Project Overview
+Crowdyaub.com is a web application designed to monitor crowd levels across various locations on the AUB campus in real time. Leveraging the university’s Wi-Fi network, it provides students and faculty with valuable information about crowd density, helping them make informed decisions about where to go on campus. This project addresses the problem of overcrowded spaces, making campus navigation smoother and reducing wait times in congested areas.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+2. Installation
+Prerequisites:
+Node.js: Ensure that Node.js is installed on your system. You can download it from here.
+AWS CLI: Set up the AWS Command Line Interface for managing AWS resources. Instructions can be found here.
+DynamoDB: The backend uses DynamoDB for data storage, so ensure your AWS account is set up with DynamoDB access.
+Setup:
+Clone the Repository:
 
-## Available Scripts
+bash
+Copy code
+git clone https://github.com/yourusername/crowdyaub.com.git
+cd crowdyaub.com
+Install Dependencies:
 
-In the project directory, you can run:
+bash
+Copy code
+npm install
+Set up Environment Variables:
 
-### `npm start`
+Create a .env file in the root directory with your AWS credentials and other necessary configurations:
+bash
+Copy code
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+DYNAMO_DB_TABLE_NAME=your_table_name
+API_URL=https://yourapiurl.com
+Deploy to AWS:
+Use AWS SAM or the Serverless Framework to deploy the Lambda functions and other AWS resources:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+bash
+Copy code
+sam build
+sam deploy --guided
+Run the Application Locally:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+bash
+Copy code
+npm start
+3. Usage
+Access the Website: Once deployed, navigate to https://www.crowdyaub.com to access the application.
+Real-Time Crowd Monitoring: The website shows live data on crowd levels at different campus locations. Use the filters to view specific areas or times.
 
-### `npm test`
+4. Contribution Guidelines
+We welcome contributions! Here's how you can contribute:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Fork the repository.
+Create a new branch for your feature or bugfix:
+bash
+Copy code
+git checkout -b feature/your-feature-name
+Write tests for your code and ensure all existing tests pass.
+Submit a pull request with a clear description of your changes.
+Please follow our coding standards and ensure all contributions are well-documented.
 
-### `npm run build`
+5. License
+This project is licensed under the MIT License.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+6. Troubleshooting and FAQs
+Common Issues:
+Deployment Errors: Ensure your AWS credentials are correctly configured and you have the necessary permissions.
+API Not Responding: Check if your API Gateway and Lambda functions are correctly deployed and associated with the right CORS settings.
+FAQs:
+How accurate is the crowd data?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The data is based on Wi-Fi connections and may vary slightly due to device connectivity.
+Can I contribute to improving the AI model?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Yes! We're always looking for collaborators to enhance the machine learning model. Please check the Contribution Guidelines.
+7. Credits
+This project was developed by Mohamad Bailoun, Ghanem El Zein, Rami El Khatib , and Sara Houeidi under the guidance of several Amazon engineers, including Suraj Nair, Gosia Szczepaniak and Hassan Bayloun. Special thanks to the Amazon engineers for their mentorship, and to the WIE club in AUB for this opportunity. We also acknowledge the use of AWS services, DynamoDB, and various open-source libraries.
 
-### `npm run eject`
+8. Contact Information
+For any questions, feedback, or support, please reach out to us at:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Email: mail@crowdyaub.com
+Personal Emails: Mohamad Bailoun: mmb84@mail.aub.edu
+		 Ghanem El Zein: gae20@mail.aub.edu
+		 Rami El Khatib: rra77@mail.aub.edu
+		 Sara Houeidi: ssh50@mail.aub.edu
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+GitHub: https://github.com/bailoun
+	https://github.com/ghanemzein

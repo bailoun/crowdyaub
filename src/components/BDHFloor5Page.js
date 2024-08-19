@@ -8,13 +8,13 @@ const BDHFloor5Page = () => {
 
   const mapDeviceToRooms = useCallback((data) => {
     const deviceToRoomMapping = {
-      'EWA.F05.010': 'Room 537',
-      'EWA.F05.03': 'Room 536',
+      'EWA.F05.010': 'Conference Room 537',
+      'EWA.F05.03': 'Conference Room 536',
     };
 
     const capacities = {
-      'Room 537': 17,
-      'Room 536': 14,
+      'Conference Room 537': 17,
+      'Conference Room 536': 14,
     };
 
     let roomData = {};
@@ -41,9 +41,9 @@ const BDHFloor5Page = () => {
   }, []);
 
   const getRoomStatus = (currentStudents, capacity) => {
-    if (currentStudents <= 0.25 * capacity) return 'Almost Empty';
-    if (currentStudents < 0.75 * capacity) return 'Half Capacity';
-    return 'Full Capacity';
+    if (currentStudents <= 0.25 * capacity) return 'Almost-empty';
+    if (currentStudents < 0.75 * capacity) return 'Half-capacity';
+    return 'Full-capacity';
   };
 
   useEffect(() => {
@@ -52,29 +52,15 @@ const BDHFloor5Page = () => {
       .then((data) => {
         const mappedData = mapDeviceToRooms(data);
         setRoomData(mappedData);
-        console.log("Mapped Room Data: ", mappedData); // Debugging line
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, [mapDeviceToRooms]);
 
-  const getHighlightColor = (status) => {
-    switch (status) {
-      case 'Almost Empty':
-        return 'rgba(0, 255, 0, 0.5)'; // Green
-      case 'Half Capacity':
-        return 'rgba(255, 255, 0, 0.5)'; // Yellow
-      case 'Full Capacity':
-        return 'rgba(255, 0, 0, 0.5)'; // Red
-      default:
-        return 'rgba(0, 255, 0, 0.5)'; // Default to Green
-    }
-  };
-
   const getTooltipText = (room, data) => {
     if (!data) return `${room}: No data`;
-    return `${room}: ${data.currentStudents} students (${data.status})`;
+    return `${room}: ${data.currentStudents} students`;
   };
 
   const goToPreviousFloor = () => {
@@ -83,34 +69,21 @@ const BDHFloor5Page = () => {
 
   return (
     <div className="floor-plan-container">
+      <h1>Bechtel Floor 5</h1>
       <div className="floor-plan-image-container">
         <img src="/bdh-floor-5.png" alt="BDH Floor 5" className="floor-plan-image" />
 
-        {roomData['Room 537'] && (
+        {roomData['Conference Room 537'] && (
           <div
-            className="highlight highlight-room-537"
-            style={{
-              top: '23%',
-              left: '29.5%',
-              width: '21%',
-              height: '22.5%',
-              backgroundColor: getHighlightColor(roomData['Room 537'].status),
-            }}
-            data-tooltip={getTooltipText('Room 537', roomData['Room 537'])}
+            className={`highlight highlight-room-537 ${roomData['Conference Room 537'].status}`}
+            data-tooltip={getTooltipText('Conference Room 537', roomData['Conference Room 537'])}
           ></div>
         )}
 
-        {roomData['Room 536'] && (
+        {roomData['Conference Room 536'] && (
           <div
-            className="highlight highlight-room-536"
-            style={{
-              top: '23%',
-              left: '55%',
-              width: '13.75%',
-              height: '22.5%',
-              backgroundColor: getHighlightColor(roomData['Room 536'].status),
-            }}
-            data-tooltip={getTooltipText('Room 536', roomData['Room 536'])}
+            className={`highlight highlight-room-536 ${roomData['Conference Room 536'].status}`}
+            data-tooltip={getTooltipText('Conference Room 536', roomData['Conference Room 536'])}
           ></div>
         )}
       </div>
@@ -131,7 +104,7 @@ const BDHFloor5Page = () => {
               <td>{room}</td>
               <td>{roomData[room].currentStudents}</td>
               <td>{roomData[room].capacity}</td>
-              <td>{roomData[room].status}</td>
+              <td>{roomData[room].status.replace("-", " ")}</td>
             </tr>
           ))}
         </tbody>

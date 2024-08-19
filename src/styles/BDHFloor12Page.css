@@ -1,0 +1,495 @@
+/* Main styles for the floor plan page */
+body {
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.floor-plan-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center;
+  width: 100%;
+  padding: 20px 20px 80px; /* Increase bottom padding to ensure space for the button */
+  background-color: #f8f9fa; /* Soft background color to contrast the table */
+}
+
+.floor-plan-image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 1200px;
+}
+
+.floor-plan-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; /* Adds space between image and table */
+}
+
+.highlight {
+  position: absolute;
+  border-radius: 4px;
+  transition: background-color 0.3s, top 0.3s, left 0.3s, width 0.3s, height 0.3s;
+  pointer-events: auto; /* Allow mouse interactions */
+}
+
+/* Tooltip styles */
+.highlight[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000; /* Ensure tooltip appears above other elements */
+}
+
+/* Room 111 */
+.highlight-room-111 {
+  top: 22%;
+  left: 40%;
+  width: 5.2%;
+  height: 25%;
+}
+
+/* Room 110 */
+.highlight-room-110 {
+  top: 22%;
+  left: 45.45%;
+  width: 5%;
+  height: 20%;
+}
+
+/* Room 109 */
+.highlight-room-109 {
+  top: 22%;
+  left: 50.8%;
+  width: 5%;
+  height: 20%;
+}
+
+/* Room 107 */
+.highlight-room-107 {
+  top: 22%;
+  left: 61.3%;
+  width: 6.7%;
+  height: 20%;
+}
+
+/* BDH Room */
+.highlight-room-bdh {
+  top: 41%;
+  left: 69%;
+  width: 6%;
+  height: 49%;
+  transform: rotate(-59deg);
+  transform-origin: top left;
+}
+
+/* Red Room */
+.highlight-room-red-room {
+  top: 64%;
+  left: 72%;
+  width: 5%;
+  height: 23.5%;
+  transform: rotate(-58deg);
+  transform-origin: top left;
+}
+
+.highlight-room-212 {
+  top: 13%;
+  left: 12.5%;
+  width: 6.5%;
+  height: 30%;
+}
+
+.highlight-room-211 {
+  top: 13%;
+  left: 19%;
+  width: 6.5%;
+  height: 30%;
+}
+
+.highlight-room-209 {
+  top: 13%;
+  left: 25.5%;
+  width: 6.5%;
+  height: 20%;
+}
+
+.highlight-room-208 {
+  top: 13%;
+  left: 32%;
+  width: 6.5%;
+  height: 20%;
+}
+
+.highlight-room-205 {
+  top: 13%;
+  left: 38.5%;
+  width: 6.5%;
+  height: 20%;
+}
+
+.highlight-room-204 {
+  top: 13%;
+  left: 45%;
+  width: 6.5%;
+  height: 30%;
+}
+
+.highlight-room-203 {
+  top: 13%;
+  left: 51.5%;
+  width: 6.5%;
+  height: 22.5%;
+}
+
+.highlight-room-202 {
+  top: 13%;
+  left: 58%;
+  width: 8%;
+  height: 30%;
+}
+
+.highlight-room-201 {
+  top: 50%;
+  left: 58%;
+  width: 8%;
+  height: 17%;
+}
+
+/* Status-based colors */
+.Almost-empty {
+  background-color: rgba(0, 255, 0, 0.5); /* Green */
+}
+
+.Half-capacity {
+  background-color: rgba(255, 255, 0, 0.5); /* Yellow */
+}
+
+.Full-capacity {
+  background-color: rgba(255, 0, 0, 0.5); /* Red */
+}
+
+/* Table Styles */
+.room-data-table {
+  width: 80%; /* Reduce the width to 80% of its container */
+  max-width: 1000px; /* Set a max-width to prevent it from becoming too wide */
+  margin-top: 20px;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  background-color: #ffffff; /* Ensure the table has a white background */
+  border-radius: 8px; /* Round the corners of the table */
+  overflow: hidden; /* Ensure border-radius is applied to the table */
+}
+
+.room-data-table th,
+.room-data-table td {
+  padding: 12px 20px; /* Keep padding for better readability */
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Subtle borders */
+}
+
+.room-data-table th {
+  background-color: #333; /* Header background color */
+  color: #fff; /* White text for the header */
+  font-weight: 600; /* Make the text bold */
+  text-transform: capitalize;
+}
+
+.room-data-table td {
+  background-color: #fff;
+  color: #333; /* Dark text for better readability */
+}
+
+.room-data-table tr:nth-child(even) td {
+  background-color: #f9f9f9; /* Lighter background for alternating rows */
+}
+
+.room-data-table tr:hover td {
+  background-color: #f1f1f1;
+  color: #000; /* Darker text on hover for better readability */
+}
+
+/* Button Styles */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px; /* Add space above the buttons */
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px; /* Add padding for responsive spacing */
+}
+
+.previous-floor-button,
+.next-floor-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333; /* Button background color */
+  color: #fff; /* White text for the buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  width: fit-content; /* Only take up the width needed for the content */
+  text-align: center;
+}
+
+.previous-floor-button:hover,
+.next-floor-button:hover {
+  background-color: #555; /* Slightly lighter background on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Responsive adjustments for screen widths 768px and below */
+@media (max-width: 768px) {
+  .highlight-room-111 {
+    top: 21%;
+    left: 40%;
+    width: 5%;
+    height: 24%;
+  }
+
+  .highlight-room-110 {
+    top: 21%;
+    left: 45.3%;
+    width: 5.2%;
+    height: 19%;
+  }
+
+  .highlight-room-109 {
+    top: 21%;
+    left: 50.8%;
+    width: 5%;
+    height: 19%;
+  }
+
+  .highlight-room-107 {
+    top: 21%;
+    left: 61.3%;
+    width: 6.8%;
+    height: 18.7%;
+  }
+
+  .highlight-room-bdh {
+    top: 39%;
+    left: 68%;
+    width: 6%;
+    height: 48%;
+    transform: rotate(-59deg);
+  }
+
+  .highlight-room-red-room {
+    top: 60%;
+    left: 72.5%;
+    width: 5%;
+    height: 21%;
+    transform: rotate(-58deg);
+  }
+
+  .highlight-room-212 {
+    top: 11.5%;
+    left: 12.5%;
+    width: 6.5%;
+    height: 29%;
+  }
+  
+  .highlight-room-211 {
+    top: 11.5%;
+    left: 19%;
+    width: 6.5%;
+    height: 29%;
+  }
+  
+  .highlight-room-209 {
+    top: 11.5%;
+    left: 25.5%;
+    width: 6.5%;
+    height: 19%;
+  }
+  
+  .highlight-room-208 {
+    top: 11.5%;
+    left: 32%;
+    width: 6.5%;
+    height: 19%;
+  }
+  
+  .highlight-room-205 {
+    top: 11.5%;
+    left: 38.5%;
+    width: 6.5%;
+    height: 19%;
+  }
+  
+  .highlight-room-204 {
+    top: 11.5%;
+    left: 45%;
+    width: 6.5%;
+    height: 29%;
+  }
+  
+  .highlight-room-203 {
+    top: 11.5%;
+    left: 51.5%;
+    width: 6.5%;
+    height: 22%;
+  }
+  
+  .highlight-room-202 {
+    top: 11.5%;
+    left: 58%;
+    width: 8%;
+    height: 29%;
+  }
+  
+  .highlight-room-201 {
+    top: 47%;
+    left: 58%;
+    width: 8%;
+    height: 17%;
+  }
+  
+
+  .room-data-table {
+    width: 100%; /* Make it 100% width on smaller screens */
+  }
+
+  .room-data-table th,
+  .room-data-table td {
+    padding: 10px 15px; /* Reduce padding for smaller screens */
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Adjust margin for smaller screens */
+  }
+
+  .next-floor-button {
+    margin-bottom: 10px; /* Add space between buttons on small screens */
+    width: 90%; /* Make buttons take up more space on small screens */
+    max-width: none;
+    font-size: 14px; /* Reduce font size for better fit */
+  }
+}
+
+/* Responsive adjustments for screen widths 480px and below */
+@media (max-width: 480px) {
+  .highlight-room-111 {
+    top: 20%;
+    left: 40%;
+    width: 5%;
+    height: 23%;
+  }
+
+  .highlight-room-110 {
+    top: 20%;
+    left: 45.5%;
+    width: 5%;
+    height: 17.8%;
+  }
+
+  .highlight-room-109 {
+    top: 20%;
+    left: 50.7%;
+    width: 5.2%;
+    height: 17.8%;
+  }
+
+  .highlight-room-107 {
+    top: 20%;
+    left: 61.5%;
+    width: 6.5%;
+    height: 17.8%;
+  }
+
+  .highlight-room-bdh {
+    top: 39%;
+    left: 69%;
+    width: 7%;
+    height: 45%;
+    transform: rotate(-59deg);
+  }
+
+  .highlight-room-red-room {
+    top: 56.5%;
+    left: 72.5%;
+    width: 5%;
+    height: 20%;
+    transform: rotate(-58deg);
+  }
+
+  .highlight-room-212 {
+    top: 11%;
+    left: 12.5%;
+    width: 6.5%;
+    height: 27%;
+  }
+  
+  .highlight-room-211 {
+    top: 11%;
+    left: 19%;
+    width: 6.5%;
+    height: 27%;
+  }
+  
+  .highlight-room-209 {
+    top: 11%;
+    left: 25.5%;
+    width: 6.5%;
+    height: 18%;
+  }
+  
+  .highlight-room-208 {
+    top: 11%;
+    left: 32%;
+    width: 6.5%;
+    height: 18%;
+  }
+  
+  .highlight-room-205 {
+    top: 11%;
+    left: 38.5%;
+    width: 6.5%;
+    height: 18%;
+  }
+  
+  .highlight-room-204 {
+    top: 11%;
+    left: 45%;
+    width: 6.5%;
+    height: 27.5%;
+  }
+  
+  .highlight-room-203 {
+    top: 11%;
+    left: 51.5%;
+    width: 6.5%;
+    height: 21%;
+  }
+  
+  .highlight-room-202 {
+    top: 11%;
+    left: 58%;
+    width: 8%;
+    height: 27.5%;
+  }
+  
+  .highlight-room-201 {
+    top: 45%;
+    left: 58%;
+    width: 8%;
+    height: 16.5%;
+  }
+  
+}

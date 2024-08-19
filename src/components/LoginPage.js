@@ -1,5 +1,3 @@
-// src/components/LoginPage.js
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
@@ -16,34 +14,40 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [captchaError, setCaptchaError] = useState('');  // New state for captcha error message
+  const [captchaError, setCaptchaError] = useState('');
   const navigate = useNavigate();
 
   const handleCaptchaChange = (value) => {
     setCaptchaValid(!!value);
-    setCaptchaError('');  // Clear the captcha error message when CAPTCHA is completed
+    if (value) {
+      setCaptchaError('');  // Clear error when CAPTCHA is valid
+    }
+  };
+
+  const displayError = (message) => {
+    setError(message);
+    setLoading(false);
   };
 
   const handlePasswordReset = async () => {
     if (!email) {
-      setError('Please enter your email to reset the password.');
-      return;
+      return displayError('Please enter your email to reset the password.');
     }
 
     try {
       await sendPasswordResetEmail(auth, email);
       setMessage('Password reset email sent! Please check your inbox.');
     } catch (error) {
-      console.error("Firebase error code:", error.code);
+      console.error("Firebase error code:", error.code, "Error message:", error.message);
       switch (error.code) {
         case 'auth/user-not-found':
-          setError('Email not found. Please check and try again.');
+          displayError('Email not found. Please check and try again.');
           break;
         case 'auth/invalid-email':
-          setError('Invalid email address. Please check and try again.');
+          displayError('Invalid email address. Please check and try again.');
           break;
         default:
-          setError(`An unexpected error occurred: ${error.message}`);
+          displayError(`An unexpected error occurred: ${error.message}`);
           break;
       }
     }
@@ -55,38 +59,46 @@ const LoginPage = () => {
       return;
     }
 
+    if (!email || !password) {
+      return displayError('Please enter both email and password.');
+    }
+
     setLoading(true);
     setError('');
     setMessage('');
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       await user.reload();
 
-      if (user.emailVerified) {
-        navigate('/');
-      } else {
-        setError('Please verify your email and try again.');
-        await auth.signOut();
-      }
+      setTimeout(async () => {
+        if (user.emailVerified) {
+          navigate('/');
+        } else {
+          displayError('Please verify your email and try again.');
+          await auth.signOut();
+        }
+      }, 1000);  // 1-second delay
+
     } catch (error) {
-      console.error("Firebase error code:", error.code);
+      console.error("Firebase error code:", error.code, "Error message:", error.message);
       switch (error.code) {
         case 'auth/wrong-password':
-          setError('Wrong Password. Please try again.');
+          displayError('Wrong Password. Please try again.');
           break;
         case 'auth/invalid-credential':
-          setError('Invalid credentials. Please check your email and password and try again.');
+          displayError('Invalid credentials. Please check your email and password and try again.');
           break;
         case 'auth/user-not-found':
-          setError('Email not found. Please check and try again.');
+          displayError('Email not found. Please check and try again.');
           break;
         case 'auth/invalid-email':
-          setError('Email must be an AUB email.');
+          displayError('Email must be an AUB email.');
           break;
         default:
-          setError(`An unexpected error occurred: ${error.message}`);
+          displayError(`An unexpected error occurred: ${error.message}`);
           break;
       }
     } finally {

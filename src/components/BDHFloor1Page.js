@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/BDHFloorPage.css';
+import '../styles/BDHFloor12Page.css';
 
 const BDHFloor1Page = () => {
   const [roomData, setRoomData] = useState({});
@@ -49,9 +49,9 @@ const BDHFloor1Page = () => {
   }, []);
 
   const getRoomStatus = (currentStudents, capacity) => {
-    if (currentStudents <= 0.25 * capacity) return 'Almost Empty';
-    if (currentStudents < 0.75 * capacity) return 'Half Capacity';
-    return 'Full Capacity';
+    if (currentStudents <= 0.25 * capacity) return 'Almost-empty';
+    if (currentStudents < 0.75 * capacity) return 'Half-capacity';
+    return 'Full-capacity';
   };
 
   useEffect(() => {
@@ -68,11 +68,11 @@ const BDHFloor1Page = () => {
 
   const getHighlightColor = (status) => {
     switch (status) {
-      case 'Almost Empty':
+      case 'Almost-empty':
         return 'rgba(0, 255, 0, 0.5)'; // Green
-      case 'Half Capacity':
+      case 'Half-capacity':
         return 'rgba(255, 255, 0, 0.5)'; // Yellow
-      case 'Full Capacity':
+      case 'Full-capacity':
         return 'rgba(255, 0, 0, 0.5)'; // Red
       default:
         return 'rgba(0, 255, 0, 0.5)'; // Default to Green
@@ -91,92 +91,66 @@ const BDHFloor1Page = () => {
 
   return (
     <div className="floor-plan-container">
-      <h1>BDH Floor 1</h1>
+      <h1>Bechtel Floor 1</h1>
       <div className="floor-plan-image-container">
         <img src="/bdh-floor-1.png" alt="BDH Floor 1" className="floor-plan-image" />
+        
+        {/* Highlight for Room 111 */}
         {roomData['Room 111'] && (
           <div
-            className="highlight"
-            style={{
-              top: '22%',
-              left: '40%',
-              width: '5.2%',
-              height: '25%',
-              backgroundColor: getHighlightColor(roomData['Room 111'].currentStudents),
-            }}
+            className="highlight highlight-room-111"
             data-tooltip={getTooltipText('Room 111', roomData['Room 111'])}
+            style={{ backgroundColor: getHighlightColor(roomData['Room 111'].status) }}
           ></div>
         )}
+
+        {/* Highlight for Room 110 */}
         {roomData['Room 110'] && (
           <div
-            className="highlight"
-            style={{
-              top: '22%',
-              left: '45.45%',
-              width: '5%',
-              height: '20%',
-              backgroundColor: getHighlightColor(roomData['Room 110'].currentStudents),
-            }}
+            className="highlight highlight-room-110"
             data-tooltip={getTooltipText('Room 110', roomData['Room 110'])}
+            style={{ backgroundColor: getHighlightColor(roomData['Room 110'].status) }}
           ></div>
         )}
+
+        {/* Highlight for Room 109 */}
         {roomData['Room 109'] && (
           <div
-            className="highlight"
-            style={{
-              top: '22%',
-              left: '50.8%',
-              width: '5%',
-              height: '20%',
-              backgroundColor: getHighlightColor(roomData['Room 109'].currentStudents),
-            }}
+            className="highlight highlight-room-109"
             data-tooltip={getTooltipText('Room 109', roomData['Room 109'])}
+            style={{ backgroundColor: getHighlightColor(roomData['Room 109'].status) }}
           ></div>
         )}
+
+        {/* Highlight for Room 107 */}
         {roomData['Room 107'] && (
           <div
-            className="highlight"
-            style={{
-              top: '22%',
-              left: '61.3%',
-              width: '6.7%',
-              height: '20%',
-              backgroundColor: getHighlightColor(roomData['Room 107'].currentStudents),
-            }}
+            className="highlight highlight-room-107"
             data-tooltip={getTooltipText('Room 107', roomData['Room 107'])}
+            style={{ backgroundColor: getHighlightColor(roomData['Room 107'].status) }}
           ></div>
         )}
+
+        {/* Highlight for BDH */}
         {roomData['BDH'] && (
           <div
-            className="highlight"
-            style={{
-              top: '42%',
-              left: '70%',
-              width: '6%',
-              height: '49%',
-              backgroundColor: getHighlightColor(roomData['BDH'].currentStudents),
-              transform: 'rotate(-58deg)',
-              transformOrigin: 'top left',
-            }}
+            className="highlight highlight-room-bdh"
             data-tooltip={getTooltipText('BDH', roomData['BDH'])}
+            style={{ backgroundColor: getHighlightColor(roomData['BDH'].status) }}
           ></div>
         )}
+
+        {/* Highlight for Red Room */}
         {roomData['Red Room'] && (
           <div
-            className="highlight"
-            style={{
-              top: '60%',
-              left: '68%',
-              width: '5%',
-              height: '43%',
-              backgroundColor: getHighlightColor(roomData['Red Room'].currentStudents),
-              transform: 'rotate(-58deg)',
-              transformOrigin: 'top left',
-            }}
+            className="highlight highlight-room-red-room"
             data-tooltip={getTooltipText('Red Room', roomData['Red Room'])}
+            style={{ backgroundColor: getHighlightColor(roomData['Red Room'].status) }}
           ></div>
         )}
       </div>
+
+      {/* Table displaying the data */}
       <table className="room-data-table">
         <thead>
           <tr>
@@ -192,14 +166,18 @@ const BDHFloor1Page = () => {
               <td>{room}</td>
               <td>{roomData[room].currentStudents}</td>
               <td>{roomData[room].capacity}</td>
-              <td>{roomData[room].status}</td>
+              <td>{roomData[room].status.replace("-", " ")}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className="next-floor-button" onClick={goToNextFloor}>
-        Next Floor &gt;
-      </button>
+
+      {/* Navigation button */}
+      <div className="navigation-buttons">
+        <button className="next-floor-button" onClick={goToNextFloor}>
+          Next Floor &gt;
+        </button>
+      </div>
     </div>
   );
 };

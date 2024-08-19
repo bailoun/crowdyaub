@@ -43,16 +43,13 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 1.5rem; /* Adjust this value to move only the button down */
+    margin-top: 1.5rem; 
     text-decoration: none;
 }
 
 .hero-text .btn:hover {
     background-color: #a9a9a9;
 }
-
-
-
 
 .idea {
     padding: 2rem 0;
@@ -72,6 +69,7 @@
 .idea-image {
     max-width: 50%;
     height: auto;
+    margin-top: 5%;
 }
 
 .idea-text {
@@ -152,10 +150,9 @@
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    text-align: center; /* Ensure everything inside is centered */
+    text-align: center; 
 }
 
-/* Center the form and its elements */
 form {
     width: 60%; /* Keep the form width */
     text-align: left; /* Align the form fields and labels to the left */
@@ -183,9 +180,8 @@ form textarea {
     border-radius: 5px;
 }
 
-/* Increase the default height of the message textarea */
 form textarea {
-    height: 150px; /* Adjust the height as needed */
+    height: 150px;
 }
 
 form button {

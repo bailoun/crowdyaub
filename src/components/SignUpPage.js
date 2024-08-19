@@ -1,9 +1,7 @@
-// src/components/SignUpPage.js
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '../firebase'; // Correct import for auth
+import { auth } from '../firebase'; 
 import { FaEye, FaEyeSlash, FaEnvelope } from 'react-icons/fa';
 import ReCAPTCHA from 'react-google-recaptcha';
 import '../styles/LoginPage.css';

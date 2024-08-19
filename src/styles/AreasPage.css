@@ -23,6 +23,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     max-width: 100%; /* Ensure cards don’t overflow on small screens */
+    position: relative; /* For tooltip positioning */
 }
 
 .area-card:hover {
@@ -62,6 +63,46 @@
 .area-card a {
     text-decoration: none;
     color: inherit;
+}
+
+/* Tooltip styling */
+.area-card[data-tooltip]::before {
+    content: attr(data-tooltip);
+    visibility: hidden;
+    opacity: 0;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%; /* Position above the card */
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+.area-card[data-tooltip]::after {
+    content: '';
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 95%; /* Slightly above the tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.area-card.disabled:hover::before,
+.area-card.disabled:hover::after {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* MEDIA QUERIES FOR RESPONSIVENESS */

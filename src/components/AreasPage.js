@@ -8,21 +8,21 @@ const AreasPage = () => (
       <div className="container">
         <h2>Areas</h2>
         <div className="areas-grid">
-          <div className="area-card disabled">
+          <div className="area-card disabled" data-tooltip="Coming Soon!">
             <img src="/charles-hostler.png" alt="Charles Hostler" />
             <h3>Charles Hostler</h3>
           </div>
-          <div className="area-card disabled">
+          <div className="area-card disabled" data-tooltip="Coming Soon!">
             <img src="/libraries.png" alt="Libraries" />
             <h3>Libraries</h3>
           </div>
           <div className="area-card">
             <Link to="/study-areas" title="View traffic in classrooms of AUB's buildings">
               <img src="/study-areas.png" alt="Study Areas" />
+              <h3>Study Areas</h3>
             </Link>
-            <h3><Link to="/study-areas">Study Areas</Link></h3>
           </div>
-          <div className="area-card disabled">
+          <div className="area-card disabled" data-tooltip="Coming Soon!">
             <img src="/cafeterias.png" alt="Cafeterias" />
             <h3>Cafeterias</h3>
           </div>

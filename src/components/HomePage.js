@@ -1,8 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import emailjs from 'emailjs-com';
 import '../styles/HomePage.css';
 
 const HomePage = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Create promises for both email sends
+    const promises = [
+        emailjs.send('service_e6eexnb', 'template_8wf11y9', formData, 'tNTgroSTpHfJ6SHbu'),
+        emailjs.send('service_e6eexnb', 'template_d336r5r', formData, 'tNTgroSTpHfJ6SHbu')
+    ];
+
+    // Handle both promises
+    Promise.all(promises)
+    .then((results) => {
+        console.log("Both emails sent successfully!", results);
+        setSuccessMessage('Message Sent Successfully!');
+        setFormData({
+            name: '',
+            email: '',
+            message: '',
+        });
+    })
+    .catch((error) => {
+        console.error("An error occurred with one of the emails:", error);
+        alert('An error occurred, Please try again');
+    });
+  };
+
   useEffect(() => {
     const elements = document.querySelectorAll('.fade-in');
 
@@ -24,11 +62,10 @@ const HomePage = () => {
     <main>
       <section className="hero fade-in">
         <div className="hero-content">
-          <img src="/map.png" alt="Campus Map" className="hero-image" />
+          <img src="/map2.png" alt="Campus Map" className="hero-image" />
           <div className="hero-text">
             <h2>Crowdy</h2>
             <p>Track Campus Traffic Instantly</p>
-            {/* Wrap the button in a div */}
             <div style={{ marginTop: '2rem' }}> 
               <Link to="/areas" className="btn">View Areas</Link>
             </div>
@@ -38,7 +75,7 @@ const HomePage = () => {
       <section className="idea fade-in">
         <div className="container">
           <div className="idea-content">
-            <img src="/campus.jpg" alt="Campus" className="idea-image" />
+            <img src="/campus2.png" alt="Campus" className="idea-image" />
             <div className="idea-text">
               <h2>The Idea</h2>
               <p>Our project is a unique initiative led by students, for students, aimed at predicting crowd density across our university campus. By leveraging cutting-edge technology and innovative data analysis techniques, we strive to enhance the campus experience by providing real-time insights into crowd levels.</p>
@@ -85,13 +122,34 @@ const HomePage = () => {
       <section id="contact" className="contact fade-in">
         <div className="container">
           <h2>Contact Us</h2>
-          <form>
+          {successMessage && <p style={{ color: 'green', fontWeight: 'bold' }}>{successMessage}</p>}  {/* Display success message */}
+          <form onSubmit={handleSubmit}>
             <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name" />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
             <label htmlFor="message">Message</label>
-            <textarea id="message" name="message"></textarea>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+            ></textarea>
             <button type="submit" className="btn">Submit</button>
           </form>
         </div>

@@ -8,13 +8,13 @@ const BDHFloor4Page = () => {
 
   const mapDeviceToRooms = useCallback((data) => {
     const deviceToRoomMapping = {
-      'EWA.F04.02': 'Room 434',
-      'EWA.F04.05': 'Room 435',
+      'EWA.F04.02': 'Conference Room 434',
+      'EWA.F04.05': 'Conference Room 435',
     };
 
     const capacities = {
-      'Room 434': 14,
-      'Room 435': 24,
+      'Conference Room 434': 14,
+      'Conference Room 435': 24,
     };
 
     let roomData = {};
@@ -41,9 +41,9 @@ const BDHFloor4Page = () => {
   }, []);
 
   const getRoomStatus = (currentStudents, capacity) => {
-    if (currentStudents <= 0.25 * capacity) return 'Almost Empty';
-    if (currentStudents < 0.75 * capacity) return 'Half Capacity';
-    return 'Full Capacity';
+    if (currentStudents <= 0.25 * capacity) return 'Almost-empty';
+    if (currentStudents < 0.75 * capacity) return 'Half-capacity';
+    return 'Full-capacity';
   };
 
   useEffect(() => {
@@ -58,22 +58,9 @@ const BDHFloor4Page = () => {
       });
   }, [mapDeviceToRooms]);
 
-  const getHighlightColor = (status) => {
-    switch (status) {
-      case 'Almost Empty':
-        return 'rgba(0, 255, 0, 0.5)'; // Green
-      case 'Half Capacity':
-        return 'rgba(255, 255, 0, 0.5)'; // Yellow
-      case 'Full Capacity':
-        return 'rgba(255, 0, 0, 0.5)'; // Red
-      default:
-        return 'rgba(0, 255, 0, 0.5)'; // Default to Green
-    }
-  };
-
   const getTooltipText = (room, data) => {
     if (!data) return `${room}: No data`;
-    return `${room}: ${data.currentStudents} students (${data.status})`;
+    return `${room}: ${data.currentStudents} students`;
   };
 
   const goToNextFloor = () => {
@@ -86,34 +73,21 @@ const BDHFloor4Page = () => {
 
   return (
     <div className="floor-plan-container">
+      <h1>Bechtel Floor 4</h1>
       <div className="floor-plan-image-container">
         <img src="/bdh-floor-4.png" alt="BDH Floor 4" className="floor-plan-image" />
 
-        {roomData['Room 434'] && (
+        {roomData['Conference Room 434'] && (
           <div
-            className="highlight highlight-room-434"
-            style={{
-              top: '27.2%',
-              left: '52%',
-              width: '14%',
-              height: '23%',
-              backgroundColor: getHighlightColor(roomData['Room 434'].status),
-            }}
-            data-tooltip={getTooltipText('Room 434', roomData['Room 434'])}
+            className={`highlight highlight-room-434 ${roomData['Conference Room 434'].status}`}
+            data-tooltip={getTooltipText('Conference Room 434', roomData['Conference Room 434'])}
           ></div>
         )}
 
-        {roomData['Room 435'] && (
+        {roomData['Conference Room 435'] && (
           <div
-            className="highlight highlight-room-435"
-            style={{
-              top: '27.2%',
-              left: '26.5%',
-              width: '21.2%',
-              height: '23%',
-              backgroundColor: getHighlightColor(roomData['Room 435'].status),
-            }}
-            data-tooltip={getTooltipText('Room 435', roomData['Room 435'])}
+            className={`highlight highlight-room-435 ${roomData['Conference Room 435'].status}`}
+            data-tooltip={getTooltipText('Conference Room 435', roomData['Conference Room 435'])}
           ></div>
         )}
       </div>
@@ -134,7 +108,7 @@ const BDHFloor4Page = () => {
               <td>{room}</td>
               <td>{roomData[room].currentStudents}</td>
               <td>{roomData[room].capacity}</td>
-              <td>{roomData[room].status}</td>
+              <td>{roomData[room].status.replace("-", " ")}</td>
             </tr>
           ))}
         </tbody>
